@@ -86,6 +86,12 @@ is Android views and a `SurfaceView` painter.
 
 Icons are [Material Symbols](https://fonts.google.com/icons), Apache License 2.0.
 
+## Support
+
+This is free software and it stays free; there is nothing here to buy. If you would like to
+send something somewhere anyway, there are some llamas in Hot Springs, North Carolina who go
+through a great deal of hay: <https://hotspringsllamas.org/donate/>
+
 ## Licence
 
 **GNU General Public License v3.0 or later.** See [LICENSE](LICENSE).

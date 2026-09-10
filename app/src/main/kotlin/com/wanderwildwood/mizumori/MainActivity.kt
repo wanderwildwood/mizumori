@@ -4,6 +4,7 @@ import android.media.AudioManager
 import android.media.ToneGenerator
 import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
@@ -27,6 +28,19 @@ import com.wanderwildwood.mizumori.ui.SettingsScreen
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // The screen stays on while this app is in front.
+        //
+        // A level is propped against the thing being levelled and read in glances with
+        // both hands busy, which is the one situation where the ordinary screen timeout
+        // is not a sensible default but a fault. Reaching over to wake the phone moves
+        // the phone, and moving the phone is the one thing that ruins the reading.
+        //
+        // This is the window flag, not a WAKE_LOCK: it needs no permission, and Android
+        // drops it by itself the moment the window loses focus, so it cannot be left on
+        // by accident or outlive the app.
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
         setContent {
             ThemeMMD {
                 Level()

@@ -1,40 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- A vial and its bubble: the working part of every level ever made.
+<!-- A vial, two marks, and a bubble sitting square between them. Nothing else: this is
+     the working part of every level ever made, showing the reading everyone is after.
 
-     Drawn rather than ruled. The tube is not quite square to the world and the bubble
-     is not quite round, because this is a mark and not an interface - the one place in
-     this app where an irregular line belongs. Everything on the screen itself is
-     hard-edged.
+     Geometric rather than hand-drawn, to match the star chart's Plough and sit as one set
+     beside it in the launcher. Exact circles, no wobble.
 
-     The launcher masks this to a shape of its choosing and only the central 66 of these
-     108 units are certain to survive, so the whole vial sits inside that circle. -->
+     The marks stop short of the glass and the bubble is kept off them. Drawn tighter, the
+     three crowd into a single blob at launcher size, and the whole thing starts to read as
+     a toggle switch rather than as a level - which is the failure mode to design against
+     here, since a capsule with a circle in it is exactly what a switch looks like.
+
+     The bubble is solid, although it is a ring inside the app. There it moves, and a
+     moving disc is the shape E Ink ghosts worst; an icon never moves, and solid reads
+     harder small.
+
+     The vial is a stadium, so its widest points are the ends, 30 units from centre. With
+     the stroke that is 32.3, inside the 33 the launcher mask is certain to keep. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- the tube -->
-    <path
-        android:strokeColor="#000000"
-        android:strokeWidth="5"
-        android:fillColor="#00000000"
-        android:pathData="M36,41.6 L72.4,42.2 A12,12 0 0 1 72,66.2 L35.6,65.6 A12,12 0 0 1 36,41.6 Z" />
-
-    <!-- the two marks a bubble is read between -->
-    <path
-        android:strokeColor="#000000"
-        android:strokeWidth="4"
-        android:pathData="M45.2,44.4 L44.9,63.4" />
-    <path
-        android:strokeColor="#000000"
-        android:strokeWidth="4"
-        android:pathData="M63.1,44.6 L62.8,63.6" />
-
-    <!-- the bubble, resting a shade off centre the way one always is -->
+    <!-- the vial -->
     <path
         android:strokeColor="#000000"
         android:strokeWidth="4.5"
+        android:strokeLineJoin="round"
         android:fillColor="#00000000"
-        android:pathData="M54.6,45.4 A8.6,8.6 0 0 1 54.2,62.6 A8.6,8.6 0 0 1 54.6,45.4 Z" />
+        android:pathData="M36.0,42.0 L72.0,42.0 A12.0,12.0 0 0 1 72.0,66.0 L36.0,66.0 A12.0,12.0 0 0 1 36.0,42.0 Z" />
+
+    <!-- the two marks a bubble is read between, kept clear of the glass -->
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="3.2"
+        android:strokeLineCap="round"
+        android:pathData="M40.5,47.0 L40.5,61.0" />
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="3.2"
+        android:strokeLineCap="round"
+        android:pathData="M67.5,47.0 L67.5,61.0" />
+
+    <!-- the bubble, square between them: the reading you are after -->
+    <path android:fillColor="#000000" android:pathData="M47.0,54.0 A7.0,7.0 0 1 0 61.0,54.0 A7.0,7.0 0 1 0 47.0,54.0 Z" />
 </vector>

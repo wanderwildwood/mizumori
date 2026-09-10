@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A vial and its bubble: the working part of every level ever made.
+
+     Drawn rather than ruled. The tube is not quite square to the world and the bubble
+     is not quite round, because this is a mark and not an interface - the one place in
+     this app where an irregular line belongs. Everything on the screen itself is
+     hard-edged.
+
+     The launcher masks this to a shape of its choosing and only the central 66 of these
+     108 units are certain to survive, so the whole vial sits inside that circle. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- the tube -->
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="5"
+        android:fillColor="#00000000"
+        android:pathData="M36,41.6 L72.4,42.2 A12,12 0 0 1 72,66.2 L35.6,65.6 A12,12 0 0 1 36,41.6 Z" />
+
+    <!-- the two marks a bubble is read between -->
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="4"
+        android:pathData="M45.2,44.4 L44.9,63.4" />
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="4"
+        android:pathData="M63.1,44.6 L62.8,63.6" />
+
+    <!-- the bubble, resting a shade off centre the way one always is -->
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="4.5"
+        android:fillColor="#00000000"
+        android:pathData="M54.6,45.4 A8.6,8.6 0 0 1 54.2,62.6 A8.6,8.6 0 0 1 54.6,45.4 Z" />
+</vector>

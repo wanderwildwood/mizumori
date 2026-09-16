@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -22,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mudita.mmd.components.buttons.OutlinedButtonMMD
 import com.mudita.mmd.components.divider.HorizontalDividerMMD
+import com.mudita.mmd.components.lazy.LazyColumnMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.mudita.mmd.components.top_app_bar.TopAppBarMMD
 import com.wanderwildwood.mizumori.level.LevelState
@@ -58,51 +57,64 @@ fun SettingsScreen(
             )
         },
     ) { contentPadding ->
-        Column(
+        // MMD's list, not a scrolling Column: it steps four rows to a swipe and stops, and it
+        // brings the chevron rail at both ends. A settings screen that coasts was the one
+        // screen in the app that did not behave like the phone it is on.
+        LazyColumnMMD(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(contentPadding)
-                .verticalScroll(rememberScrollState())
                 .padding(horizontal = 20.dp),
         ) {
-            Spacer(Modifier.height(12.dp))
-
-            Setting(title = "Read as", value = state.display.label, onClick = onDisplay)
-            Setting(
-                title = "Lock orientation",
-                value = if (state.lockOrientation) "On" else "Off",
-                // No label can carry this one: what it locks is which way of holding the
-                // phone is being measured, not the screen rotation everyone else means.
-                note = "Keeps measuring the way it is being held now, even if it is turned.",
-                onClick = onLock,
-            )
-            Setting(
-                title = "Sound when level",
-                value = if (state.soundWhenLevel) "On" else "Off",
-                note = "For a surface you cannot see the screen from.",
-                onClick = onSound,
-            )
-
-            HorizontalDividerMMD()
-
-            Setting(
-                title = "Calibrate",
-                value = if (state.isCalibrated) "Set" else "Not set",
-                note = "Rest the phone on something you trust to be level, then press. " +
-                    "Each way of holding it is calibrated on its own.",
-                onClick = onCalibrate,
-            )
-
-            // Destructive last, after everything that only adjusts.
-            if (state.isCalibrated) {
+            item {
+                Spacer(Modifier.height(12.dp))
+            }
+            item {
+                Setting(title = "Read as", value = state.display.label, onClick = onDisplay)
+            }
+            item {
                 Setting(
-                    title = "Forget calibration",
-                    value = "All five orientations",
-                    onClick = { resetOpen = true },
+                    title = "Lock orientation",
+                    value = if (state.lockOrientation) "On" else "Off",
+                    // No label can carry this one: what it locks is which way of holding the
+                    // phone is being measured, not the screen rotation everyone else means.
+                    note = "Keeps measuring the way it is being held now, even if it is turned.",
+                    onClick = onLock,
                 )
             }
-
-            Spacer(Modifier.height(24.dp))
+            item {
+                Setting(
+                    title = "Sound when level",
+                    value = if (state.soundWhenLevel) "On" else "Off",
+                    note = "For a surface you cannot see the screen from.",
+                    onClick = onSound,
+                )
+            }
+            item {
+                HorizontalDividerMMD()
+            }
+            item {
+                Setting(
+                    title = "Calibrate",
+                    value = if (state.isCalibrated) "Set" else "Not set",
+                    note = "Rest the phone on something you trust to be level, then press. " +
+                        "Each way of holding it is calibrated on its own.",
+                    onClick = onCalibrate,
+                )
+            }
+            item {
+                // Destructive last, after everything that only adjusts.
+                if (state.isCalibrated) {
+                    Setting(
+                        title = "Forget calibration",
+                        value = "All five orientations",
+                        onClick = { resetOpen = true },
+                    )
+                }
+            }
+            item {
+                Spacer(Modifier.height(24.dp))
+            }
         }
     }
 

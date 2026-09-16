@@ -4,11 +4,11 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.mudita.mmd.components.buttons.OutlinedButtonMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.wanderwildwood.mizumori.BuildConfig
@@ -37,7 +37,7 @@ fun AboutDialog(onDismiss: () -> Unit) {
     EInkDialog(onDismiss = onDismiss) {
         TextMMD(
             text = "Level ${BuildConfig.VERSION_NAME}",
-            fontSize = 20.sp,
+            style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Medium,
         )
 
@@ -45,29 +45,29 @@ fun AboutDialog(onDismiss: () -> Unit) {
         TextMMD(
             text = "No permissions at all, and no network. It reads the phone's own " +
                 "accelerometer and nothing else.",
-            fontSize = 14.sp,
+            style = MaterialTheme.typography.labelSmall,
         )
 
         Spacer(Modifier.height(14.dp))
         TextMMD(
             text = "A phone is not a machinist's level. Calibrate it against a surface " +
                 "you trust, and treat the last digit as a hint rather than a fact.",
-            fontSize = 14.sp,
+            style = MaterialTheme.typography.labelSmall,
         )
 
         Spacer(Modifier.height(14.dp))
         TextMMD(
             text = "After Level by Antoine Vianey and the Bubble fork by woheller69, " +
                 "whose orientation maths this carries.",
-            fontSize = 14.sp,
+            style = MaterialTheme.typography.labelSmall,
         )
 
         Spacer(Modifier.height(14.dp))
-        TextMMD(text = "GNU General Public License v3 or later", fontSize = 14.sp)
-        TextMMD(text = "Icons from Material Symbols, Apache 2.0", fontSize = 14.sp)
+        TextMMD(text = "GNU General Public License v3 or later", style = MaterialTheme.typography.labelSmall)
+        TextMMD(text = "Icons from Material Symbols, Apache 2.0", style = MaterialTheme.typography.labelSmall)
 
         Spacer(Modifier.height(14.dp))
-        TextMMD(text = "github.com/wanderwildwood/mizumori", fontSize = 14.sp)
+        TextMMD(text = "github.com/wanderwildwood/mizumori", style = MaterialTheme.typography.labelSmall)
 
         Spacer(Modifier.height(14.dp))
         Llama()
@@ -76,7 +76,7 @@ fun AboutDialog(onDismiss: () -> Unit) {
         OutlinedButtonMMD(
             onClick = onDismiss,
             modifier = Modifier.fillMaxWidth().height(48.dp),
-        ) { TextMMD(text = "Close", fontSize = 15.sp) }
+        ) { TextMMD(text = "Close", style = MaterialTheme.typography.bodySmall) }
     }
 }
 
@@ -119,6 +119,6 @@ private fun Llama() {
             modifier = Modifier.size(22.dp),
         )
         Spacer(Modifier.width(6.dp))
-        TextMMD(text = "Feed the llamas", fontSize = 14.sp)
+        TextMMD(text = "Feed the llamas", style = MaterialTheme.typography.labelSmall)
     }
 }

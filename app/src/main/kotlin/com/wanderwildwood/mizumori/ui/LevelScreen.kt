@@ -46,7 +46,7 @@ fun LevelScreen(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             TopAppBarMMD(
-                title = { TextMMD(text = "Level", fontSize = 24.sp) },
+                title = { TextMMD(text = "Level") },
                 actions = { BarButton(Icons.Settings, "Settings", onSettings) },
             )
         },
@@ -68,7 +68,7 @@ fun LevelScreen(
             Spacer(Modifier.height(20.dp))
 
             if (reading == null) {
-                TextMMD(text = "Finding level…", fontSize = 16.sp)
+                TextMMD(text = "Finding level…", style = MaterialTheme.typography.titleSmall)
                 return@Column
             }
 
@@ -113,14 +113,14 @@ fun LevelScreen(
                 // bubble has not already said.
                 TextMMD(
                     text = if (state.isLevel) "Level" else " ",
-                    fontSize = 20.sp,
+                    style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Medium,
                 )
             }
 
             if (state.lockOrientation) {
                 Spacer(Modifier.height(4.dp))
-                TextMMD(text = "Orientation locked", fontSize = 13.sp)
+                TextMMD(text = "Orientation locked", style = MaterialTheme.typography.labelSmall)
             }
         }
     }
@@ -134,7 +134,7 @@ private fun Axis(label: String, degrees: Float, state: LevelState) {
             fontSize = 34.sp,
             fontWeight = FontWeight.Medium,
         )
-        TextMMD(text = label, fontSize = 13.sp)
+        TextMMD(text = label, style = MaterialTheme.typography.labelSmall)
     }
 }
 
@@ -146,7 +146,7 @@ private fun NoSensor() {
     ) {
         TextMMD(
             text = "This phone has no accelerometer, so it cannot be a level.",
-            fontSize = 16.sp,
+            style = MaterialTheme.typography.titleSmall,
             textAlign = TextAlign.Center,
         )
     }

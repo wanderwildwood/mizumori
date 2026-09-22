@@ -18,12 +18,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mudita.mmd.components.text.TextMMD
 import com.mudita.mmd.components.top_app_bar.TopAppBarMMD
+import com.wanderwildwood.mizumori.R
 import com.wanderwildwood.mizumori.core.Angles
 import com.wanderwildwood.mizumori.level.LevelState
 
@@ -46,8 +48,8 @@ fun LevelScreen(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             TopAppBarMMD(
-                title = { TextMMD(text = "Level") },
-                actions = { BarButton(Icons.Settings, "Settings", onSettings) },
+                title = { TextMMD(text = stringResource(R.string.app_name)) },
+                actions = { BarButton(Icons.Settings, stringResource(R.string.level_cd_settings), onSettings) },
             )
         },
     ) { contentPadding ->
@@ -68,7 +70,7 @@ fun LevelScreen(
             Spacer(Modifier.height(20.dp))
 
             if (reading == null) {
-                TextMMD(text = "Finding level…", style = MaterialTheme.typography.titleSmall)
+                TextMMD(text = stringResource(R.string.level_finding), style = MaterialTheme.typography.titleSmall)
                 return@Column
             }
 
@@ -95,8 +97,8 @@ fun LevelScreen(
             ) {
                 if (reading.orientation.isFlat) {
                     Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
-                        Axis("across", reading.acrossAngle, state)
-                        Axis("along", reading.alongAngle, state)
+                        Axis(stringResource(R.string.level_axis_across), reading.acrossAngle, state)
+                        Axis(stringResource(R.string.level_axis_along), reading.alongAngle, state)
                     }
                 } else {
                     TextMMD(
@@ -112,7 +114,7 @@ fun LevelScreen(
                 // rest of the time would be on screen permanently, saying nothing the
                 // bubble has not already said.
                 TextMMD(
-                    text = if (state.isLevel) "Level" else " ",
+                    text = if (state.isLevel) stringResource(R.string.level_is_level) else " ",
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Medium,
                 )
@@ -120,7 +122,7 @@ fun LevelScreen(
 
             if (state.lockOrientation) {
                 Spacer(Modifier.height(4.dp))
-                TextMMD(text = "Orientation locked", style = MaterialTheme.typography.labelSmall)
+                TextMMD(text = stringResource(R.string.level_orientation_locked), style = MaterialTheme.typography.labelSmall)
             }
         }
     }
@@ -145,7 +147,7 @@ private fun NoSensor() {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TextMMD(
-            text = "This phone has no accelerometer, so it cannot be a level.",
+            text = stringResource(R.string.level_no_sensor),
             style = MaterialTheme.typography.titleSmall,
             textAlign = TextAlign.Center,
         )

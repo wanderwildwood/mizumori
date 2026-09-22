@@ -1,4 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Level</string>
+
+    <!-- ============================================================ -->
+    <!-- Level screen: the vial and the reading -->
+
+    <!-- Top bar: icon description read aloud by a screen reader -->
+    <string name="level_cd_settings">Settings</string>
+    <!-- Shown until the first sensor reading arrives -->
+    <string name="level_finding">Finding level…</string>
+    <!-- Under the lying-flat reading: the angle side to side (lowercase in the English) -->
+    <string name="level_axis_across">across</string>
+    <!-- Under the lying-flat reading: the angle end to end (lowercase in the English) -->
+    <string name="level_axis_along">along</string>
+    <!-- Under the reading, only when the phone is level (adjective: "it is level"), not the app's name -->
+    <string name="level_is_level">Level</string>
+    <!-- Shown when the orientation lock setting is on -->
+    <string name="level_orientation_locked">Orientation locked</string>
+    <string name="level_no_sensor">This phone has no accelerometer, so it cannot be a level.</string>
+
+    <!-- ============================================================ -->
+    <!-- Settings -->
+
+    <string name="settings_title">Settings</string>
+    <!-- Top bar: icon descriptions read aloud by a screen reader -->
+    <string name="settings_cd_close">Close</string>
+    <string name="settings_cd_about">About</string>
+    <!-- How the angle is shown: in degrees or as a percentage slope -->
+    <string name="settings_read_as">Read as</string>
+    <string name="settings_display_degrees">Degrees</string>
+    <string name="settings_display_percent">Percent</string>
+    <string name="settings_lock">Lock orientation</string>
+    <string name="settings_lock_note">Keeps measuring the way it is being held now, even if it is turned.</string>
+    <string name="settings_sound">Sound when level</string>
+    <string name="settings_sound_note">For a surface you cannot see the screen from.</string>
+    <!-- A setting's value: switched on -->
+    <string name="settings_on">On</string>
+    <!-- A setting's value: switched off -->
+    <string name="settings_off">Off</string>
+    <!-- Button-like row (verb) -->
+    <string name="settings_calibrate">Calibrate</string>
+    <!-- The calibration's state: one has been saved (past participle, "is set") -->
+    <string name="settings_calibration_set">Set</string>
+    <string name="settings_calibration_not_set">Not set</string>
+    <string name="settings_calibrate_note">Rest the phone on something you trust to be level, then press. Each way of holding it is calibrated on its own.</string>
+    <string name="settings_forget">Forget calibration</string>
+    <!-- The same row after one press; a second press forgets -->
+    <string name="settings_forget_armed">Forget calibration — tap again</string>
+    <string name="settings_forget_value">All five orientations</string>
+    <string name="settings_forget_armed_value">Every orientation goes back to the factory reading, and it has to be done again with a surface you trust.</string>
+
+    <!-- ============================================================ -->
+    <!-- About dialog. Keep the names of the app, people, projects and licences as they are -->
+
+    <!-- %1$s is the version number -->
+    <string name="about_title">Level %1$s</string>
+    <string name="about_privacy">No permissions at all, and no network. It reads the phone\'s own accelerometer and nothing else.</string>
+    <string name="about_accuracy">A phone is not a machinist\'s level. Calibrate it against a surface you trust, and treat the last digit as a hint rather than a fact.</string>
+    <string name="about_built_on">After Level by Antoine Vianey and the Bubble fork by woheller69, whose orientation maths this carries.</string>
+    <!-- The name of the app's licence -->
+    <string name="about_licence">GNU General Public License v3 or later</string>
+    <string name="about_icons">Icons from Material Symbols, Apache 2.0</string>
+    <!-- The donation link label, beside a drawing of a llama. A fixed phrase: a verb and an object, so the reader knows what pressing it does -->
+    <string name="about_feed_the_llamas">Feed the llamas</string>
+    <!-- Toast when no app on the phone can open the donation link -->
+    <string name="about_no_browser">There is no browser on this phone to open that with.</string>
+    <!-- Button that closes the About dialog -->
+    <string name="about_close">Close</string>
 </resources>

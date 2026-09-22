@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.wanderwildwood.mizumori.R
 
 /**
@@ -36,35 +37,32 @@ import com.wanderwildwood.mizumori.R
 fun AboutDialog(onDismiss: () -> Unit) {
     EInkDialog(onDismiss = onDismiss) {
         TextMMD(
-            text = "Level ${BuildConfig.VERSION_NAME}",
+            text = stringResource(R.string.about_title, BuildConfig.VERSION_NAME),
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Medium,
         )
 
         Spacer(Modifier.height(14.dp))
         TextMMD(
-            text = "No permissions at all, and no network. It reads the phone's own " +
-                "accelerometer and nothing else.",
+            text = stringResource(R.string.about_privacy),
             style = MaterialTheme.typography.labelSmall,
         )
 
         Spacer(Modifier.height(14.dp))
         TextMMD(
-            text = "A phone is not a machinist's level. Calibrate it against a surface " +
-                "you trust, and treat the last digit as a hint rather than a fact.",
+            text = stringResource(R.string.about_accuracy),
             style = MaterialTheme.typography.labelSmall,
         )
 
         Spacer(Modifier.height(14.dp))
         TextMMD(
-            text = "After Level by Antoine Vianey and the Bubble fork by woheller69, " +
-                "whose orientation maths this carries.",
+            text = stringResource(R.string.about_built_on),
             style = MaterialTheme.typography.labelSmall,
         )
 
         Spacer(Modifier.height(14.dp))
-        TextMMD(text = "GNU General Public License v3 or later", style = MaterialTheme.typography.labelSmall)
-        TextMMD(text = "Icons from Material Symbols, Apache 2.0", style = MaterialTheme.typography.labelSmall)
+        TextMMD(text = stringResource(R.string.about_licence), style = MaterialTheme.typography.labelSmall)
+        TextMMD(text = stringResource(R.string.about_icons), style = MaterialTheme.typography.labelSmall)
 
         Spacer(Modifier.height(14.dp))
         TextMMD(text = "github.com/wanderwildwood/mizumori", style = MaterialTheme.typography.labelSmall)
@@ -76,7 +74,7 @@ fun AboutDialog(onDismiss: () -> Unit) {
         OutlinedButtonMMD(
             onClick = onDismiss,
             modifier = Modifier.fillMaxWidth().height(48.dp),
-        ) { TextMMD(text = "Close", style = MaterialTheme.typography.bodySmall) }
+        ) { TextMMD(text = stringResource(R.string.about_close), style = MaterialTheme.typography.bodySmall) }
     }
 }
 
@@ -108,7 +106,7 @@ private fun Llama() {
                         Intent(Intent.ACTION_VIEW, Uri.parse("https://square.link/u/AGu8oT10")),
                     )
                 }.onFailure {
-                    Toast.makeText(context, "There is no browser on this phone to open that with.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.about_no_browser), Toast.LENGTH_SHORT).show()
                 }
             }
             .padding(vertical = 4.dp),
@@ -119,6 +117,6 @@ private fun Llama() {
             modifier = Modifier.size(22.dp),
         )
         Spacer(Modifier.width(6.dp))
-        TextMMD(text = "Feed the llamas", style = MaterialTheme.typography.labelSmall)
+        TextMMD(text = stringResource(R.string.about_feed_the_llamas), style = MaterialTheme.typography.labelSmall)
     }
 }

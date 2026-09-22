@@ -17,12 +17,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mudita.mmd.components.buttons.OutlinedButtonMMD
 import com.mudita.mmd.components.divider.HorizontalDividerMMD
 import com.mudita.mmd.components.lazy.LazyColumnMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.mudita.mmd.components.top_app_bar.TopAppBarMMD
+import com.wanderwildwood.mizumori.R
+import com.wanderwildwood.mizumori.core.Display
 import com.wanderwildwood.mizumori.level.LevelState
 import kotlinx.coroutines.delay
 
@@ -61,9 +64,9 @@ fun SettingsScreen(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             TopAppBarMMD(
-                title = { TextMMD(text = "Settings") },
-                navigationIcon = { BarButton(Icons.Close, "Close", onClose) },
-                actions = { BarButton(Icons.Info, "About", { aboutOpen = true }) },
+                title = { TextMMD(text = stringResource(R.string.settings_title)) },
+                navigationIcon = { BarButton(Icons.Close, stringResource(R.string.settings_cd_close), onClose) },
+                actions = { BarButton(Icons.Info, stringResource(R.string.settings_cd_about), { aboutOpen = true }) },
             )
         },
     ) { contentPadding ->
@@ -80,23 +83,30 @@ fun SettingsScreen(
                 Spacer(Modifier.height(12.dp))
             }
             item {
-                Setting(title = "Read as", value = state.display.label, onClick = onDisplay)
+                Setting(
+                    title = stringResource(R.string.settings_read_as),
+                    value = when (state.display) {
+                        Display.DEGREES -> stringResource(R.string.settings_display_degrees)
+                        Display.PERCENT -> stringResource(R.string.settings_display_percent)
+                    },
+                    onClick = onDisplay,
+                )
             }
             item {
                 Setting(
-                    title = "Lock orientation",
-                    value = if (state.lockOrientation) "On" else "Off",
+                    title = stringResource(R.string.settings_lock),
+                    value = if (state.lockOrientation) stringResource(R.string.settings_on) else stringResource(R.string.settings_off),
                     // No label can carry this one: what it locks is which way of holding the
                     // phone is being measured, not the screen rotation everyone else means.
-                    note = "Keeps measuring the way it is being held now, even if it is turned.",
+                    note = stringResource(R.string.settings_lock_note),
                     onClick = onLock,
                 )
             }
             item {
                 Setting(
-                    title = "Sound when level",
-                    value = if (state.soundWhenLevel) "On" else "Off",
-                    note = "For a surface you cannot see the screen from.",
+                    title = stringResource(R.string.settings_sound),
+                    value = if (state.soundWhenLevel) stringResource(R.string.settings_on) else stringResource(R.string.settings_off),
+                    note = stringResource(R.string.settings_sound_note),
                     onClick = onSound,
                 )
             }
@@ -105,10 +115,9 @@ fun SettingsScreen(
             }
             item {
                 Setting(
-                    title = "Calibrate",
-                    value = if (state.isCalibrated) "Set" else "Not set",
-                    note = "Rest the phone on something you trust to be level, then press. " +
-                        "Each way of holding it is calibrated on its own.",
+                    title = stringResource(R.string.settings_calibrate),
+                    value = if (state.isCalibrated) stringResource(R.string.settings_calibration_set) else stringResource(R.string.settings_calibration_not_set),
+                    note = stringResource(R.string.settings_calibrate_note),
                     onClick = onCalibrate,
                 )
             }
@@ -119,15 +128,14 @@ fun SettingsScreen(
                 if (state.isCalibrated) {
                     Setting(
                         title = if (resetArmed) {
-                            "Forget calibration — tap again"
+                            stringResource(R.string.settings_forget_armed)
                         } else {
-                            "Forget calibration"
+                            stringResource(R.string.settings_forget)
                         },
                         value = if (resetArmed) {
-                            "Every orientation goes back to the factory reading, and it has " +
-                                "to be done again with a surface you trust."
+                            stringResource(R.string.settings_forget_armed_value)
                         } else {
-                            "All five orientations"
+                            stringResource(R.string.settings_forget_value)
                         },
                         onClick = {
                             if (resetArmed) {

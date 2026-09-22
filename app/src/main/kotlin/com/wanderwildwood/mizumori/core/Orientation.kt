@@ -92,15 +92,15 @@ data class Reading(
 }
 
 /** How the angle is said. */
-enum class Display(val label: String) {
+enum class Display {
     /** Degrees from level, which is what a carpenter means. */
-    DEGREES("Degrees"),
+    DEGREES,
 
     /**
      * Rise over run as a percentage, which is what a fall or a ramp is specified in.
      * A 1-in-80 drainage fall is 1.25%, and saying that in degrees (0.72°) helps nobody.
      */
-    PERCENT("Percent"),
+    PERCENT,
     ;
 
     fun next(): Display = entries[(ordinal + 1) % entries.size]

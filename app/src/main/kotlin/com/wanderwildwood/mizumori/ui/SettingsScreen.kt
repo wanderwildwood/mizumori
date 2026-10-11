@@ -70,14 +70,15 @@ fun SettingsScreen(
             )
         },
     ) { contentPadding ->
-        // MMD's list, not a scrolling Column: it steps four rows to a swipe and stops, and it
-        // brings the chevron rail at both ends. A settings screen that coasts was the one
+        // MMD's list, not a scrolling Column: it steps four rows to a swipe and stops, with no
+        // scrollbar beside it. A settings screen that coasts was the one
         // screen in the app that did not behave like the phone it is on.
         LazyColumnMMD(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(contentPadding)
                 .padding(horizontal = 20.dp),
+            isScrollbarVisible = false,
         ) {
             item {
                 Spacer(Modifier.height(12.dp))

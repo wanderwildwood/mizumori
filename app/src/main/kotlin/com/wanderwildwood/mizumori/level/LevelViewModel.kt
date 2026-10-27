@@ -60,7 +60,7 @@ class LevelViewModel(application: Application) : AndroidViewModel(application) {
     /** The orientation being measured while the lock is on. */
     private var locked: Orientation? = null
 
-    fun start(displayRotation: Int) {
+    fun start() {
         job?.cancel()
         val context = getApplication<Application>()
         if (!hasAccelerometer(context)) {
@@ -78,7 +78,7 @@ class LevelViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         job = viewModelScope.launch {
-            readings(context, displayRotation)
+            readings(context)
                 .map { reading ->
                     raw = reading
 
@@ -149,6 +149,12 @@ class LevelViewModel(application: Application) : AndroidViewModel(application) {
                 justCalibrated = true,
             )
         }
+    }
+
+    /** Whether pressing Calibrate now would replace a zero saved for this way of holding it. */
+    fun hasCalibrationHere(): Boolean {
+        val orientation = _state.value.reading?.orientation ?: raw?.orientation ?: return false
+        return preferences.isCalibrated(orientation)
     }
 
     fun resetCalibration() {

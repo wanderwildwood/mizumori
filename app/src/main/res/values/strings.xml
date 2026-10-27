@@ -44,6 +44,9 @@
     <string name="settings_calibration_set">Set</string>
     <string name="settings_calibration_not_set">Not set</string>
     <string name="settings_calibrate_note">Rest the phone on something you trust to be level, then press. Each way of holding it is calibrated on its own.</string>
+    <!-- The same row when this way of holding the phone already has a saved zero; a second press replaces it -->
+    <string name="settings_calibrate_armed">Calibrate — tap again</string>
+    <string name="settings_calibrate_armed_value">Replaces the level saved for the way the phone is held now.</string>
     <string name="settings_forget">Forget calibration</string>
     <!-- The same row after one press; a second press forgets -->
     <string name="settings_forget_armed">Forget calibration — tap again</string>
@@ -55,7 +58,11 @@
 
     <!-- %1$s is the version number -->
     <string name="about_title">Level %1$s</string>
-    <string name="about_privacy">No permissions at all, and no network. It reads the phone\'s own accelerometer and nothing else.</string>
+    <!-- Heading of the privacy paragraph in About -->
+    <string name="about_privacy_heading">Privacy</string>
+    <!-- Heading of the terms paragraph in About -->
+    <string name="about_terms_heading">Terms</string>
+    <string name="about_privacy">No permissions at all, and no internet access, so nothing is sent anywhere and nothing is collected about you. It reads the phone\'s own accelerometer and keeps only your settings and calibration on this phone. There are no ads, no analytics and no tracking.</string>
     <string name="about_accuracy">A phone is not a machinist\'s level. Calibrate it against a surface you trust, and treat the last digit as a hint rather than a fact.</string>
     <string name="about_built_on">After Level by Antoine Vianey and the Bubble fork by woheller69, whose orientation maths this carries.</string>
     <!-- The name of the app's licence -->

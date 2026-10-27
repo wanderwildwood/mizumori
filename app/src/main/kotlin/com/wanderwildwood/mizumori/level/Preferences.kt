@@ -40,6 +40,11 @@ class Preferences(context: Context) {
                 store.contains(key(BALANCE, it))
         }
 
+    /** Whether this way of holding the phone already has a saved zero. */
+    fun isCalibrated(orientation: Orientation): Boolean =
+        store.contains(key(PITCH, orientation)) || store.contains(key(ROLL, orientation)) ||
+            store.contains(key(BALANCE, orientation))
+
     fun calibration(orientation: Orientation): Triple<Float, Float, Float> = Triple(
         store.getFloat(key(PITCH, orientation), 0f),
         store.getFloat(key(ROLL, orientation), 0f),

@@ -13,8 +13,10 @@ not gate the motion sensors behind a permission, so a level has nothing to ask f
 There is no `INTERNET` permission. Without it Android will not let the app open a network
 connection, so nothing it knows could leave the phone even by accident.
 
-Upstream declares `WAKE_LOCK` to hold the screen on. This does not: on E Ink the picture
-stays up with the backlight off, so a wake lock would cost battery for no visible effect.
+Upstream declares `WAKE_LOCK` to hold the screen on. This does not. A level has to stay
+readable while it rests against the thing being levelled, so the app keeps the screen on
+while it is in front, with the window flag `FLAG_KEEP_SCREEN_ON`. That needs no permission,
+and Android drops it by itself the moment the app is no longer in front.
 
 ## What is stored
 

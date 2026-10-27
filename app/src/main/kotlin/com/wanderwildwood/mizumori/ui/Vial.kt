@@ -1,9 +1,6 @@
 package com.wanderwildwood.mizumori.ui
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -35,12 +32,13 @@ private const val FLAT_RANGE_DEGREES = 6f
  * The one-axis vial, for a phone stood on any of its four edges.
  *
  * Wider than it is tall, with the bubble running left and right, because that is what a
- * spirit level looks like and the shape itself says which way to read it.
+ * spirit level looks like and the shape itself says which way to read it. [degrees] is
+ * positive towards the right of the screen, whichever way the screen is turned.
  */
 @Composable
 fun EdgeVial(degrees: Float, isLevel: Boolean, modifier: Modifier = Modifier) {
-    Box(modifier = modifier.fillMaxWidth().height(120.dp)) {
-        Canvas(modifier = Modifier.fillMaxWidth().height(120.dp)) {
+    run {
+        Canvas(modifier = modifier) {
             val stroke = 3.dp.toPx()
             val bubbleRadius = 26.dp.toPx()
             val inset = 8.dp.toPx()
@@ -89,13 +87,13 @@ fun EdgeVial(degrees: Float, isLevel: Boolean, modifier: Modifier = Modifier) {
  */
 @Composable
 fun FlatVial(
-    acrossDegrees: Float,
-    alongDegrees: Float,
+    rightDegrees: Float,
+    downDegrees: Float,
     isLevel: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    Box(modifier = modifier.fillMaxWidth().height(260.dp)) {
-        Canvas(modifier = Modifier.fillMaxWidth().height(260.dp)) {
+    run {
+        Canvas(modifier = modifier) {
             val stroke = 3.dp.toPx()
             val bubbleRadius = 26.dp.toPx()
             val centre = Offset(size.width / 2f, size.height / 2f)
@@ -144,8 +142,8 @@ fun FlatVial(
             )
 
             val travel = outer - bubbleRadius - stroke
-            val dx = Angles.bubbleOffset(acrossDegrees, FLAT_RANGE_DEGREES) * travel
-            val dy = Angles.bubbleOffset(alongDegrees, FLAT_RANGE_DEGREES) * travel
+            val dx = Angles.bubbleOffset(rightDegrees, FLAT_RANGE_DEGREES) * travel
+            val dy = Angles.bubbleOffset(downDegrees, FLAT_RANGE_DEGREES) * travel
 
             drawBubble(
                 centre = Offset(centre.x + dx, centre.y + dy),

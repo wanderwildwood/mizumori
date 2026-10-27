@@ -16,7 +16,12 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -36,37 +41,45 @@ import com.wanderwildwood.mizumori.R
 @Composable
 fun AboutDialog(onDismiss: () -> Unit) {
     EInkDialog(onDismiss = onDismiss) {
-        TextMMD(
-            text = stringResource(R.string.about_title, BuildConfig.VERSION_NAME),
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Medium,
-        )
+        // The words scroll and the Close button stays put, so a short screen (the phone on its
+        // side) never pushes it out of reach.
+        Column(
+            modifier = Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState()),
+        ) {
+            TextMMD(
+                text = stringResource(R.string.about_title, BuildConfig.VERSION_NAME),
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Medium,
+            )
 
-        Spacer(Modifier.height(14.dp))
-        TextMMD(
-            text = stringResource(R.string.about_privacy),
-            style = MaterialTheme.typography.labelSmall,
-        )
+            Spacer(Modifier.height(14.dp))
+            Heading(stringResource(R.string.about_privacy_heading))
+            TextMMD(
+                text = stringResource(R.string.about_privacy),
+                style = MaterialTheme.typography.labelSmall,
+            )
 
-        Spacer(Modifier.height(14.dp))
-        TextMMD(
-            text = stringResource(R.string.about_accuracy),
-            style = MaterialTheme.typography.labelSmall,
-        )
+            Spacer(Modifier.height(14.dp))
+            TextMMD(
+                text = stringResource(R.string.about_accuracy),
+                style = MaterialTheme.typography.labelSmall,
+            )
 
-        Spacer(Modifier.height(14.dp))
-        TextMMD(
-            text = stringResource(R.string.about_built_on),
-            style = MaterialTheme.typography.labelSmall,
-        )
+            Spacer(Modifier.height(14.dp))
+            TextMMD(
+                text = stringResource(R.string.about_built_on),
+                style = MaterialTheme.typography.labelSmall,
+            )
 
-        Spacer(Modifier.height(14.dp))
-        TextMMD(text = stringResource(R.string.about_terms), style = MaterialTheme.typography.labelSmall)
-        TextMMD(text = stringResource(R.string.about_licence), style = MaterialTheme.typography.labelSmall)
-        TextMMD(text = stringResource(R.string.about_icons), style = MaterialTheme.typography.labelSmall)
+            Spacer(Modifier.height(14.dp))
+            Heading(stringResource(R.string.about_terms_heading))
+            TextMMD(text = stringResource(R.string.about_terms), style = MaterialTheme.typography.labelSmall)
+            TextMMD(text = stringResource(R.string.about_licence), style = MaterialTheme.typography.labelSmall)
+            TextMMD(text = stringResource(R.string.about_icons), style = MaterialTheme.typography.labelSmall)
 
-        Spacer(Modifier.height(14.dp))
-        Llama()
+            Spacer(Modifier.height(14.dp))
+            Llama()
+        }
 
         Spacer(Modifier.height(18.dp))
         OutlinedButtonMMD(
@@ -74,6 +87,11 @@ fun AboutDialog(onDismiss: () -> Unit) {
             modifier = Modifier.fillMaxWidth().height(48.dp),
         ) { TextMMD(text = stringResource(R.string.about_close), style = MaterialTheme.typography.bodySmall) }
     }
+}
+
+@Composable
+private fun Heading(text: String) {
+    TextMMD(text = text, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Medium)
 }
 
 /**
@@ -109,7 +127,8 @@ private fun Llama() {
                         Toast.makeText(context, context.getString(R.string.about_no_browser), Toast.LENGTH_SHORT).show()
                     }
                 }
-                .padding(vertical = 4.dp),
+                .heightIn(min = 48.dp)
+                .wrapContentHeight(Alignment.CenterVertically),
         )
         Spacer(Modifier.width(6.dp))
         Row(
@@ -129,7 +148,7 @@ private fun Llama() {
                         Toast.makeText(context, context.getString(R.string.about_no_browser), Toast.LENGTH_SHORT).show()
                     }
                 }
-                .padding(vertical = 4.dp),
+                .heightIn(min = 48.dp),
         ) {
             Image(
                 painter = painterResource(R.drawable.llama),

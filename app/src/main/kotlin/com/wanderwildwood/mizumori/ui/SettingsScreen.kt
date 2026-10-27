@@ -19,8 +19,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.mudita.mmd.components.buttons.OutlinedButtonMMD
-import com.mudita.mmd.components.divider.HorizontalDividerMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.mudita.mmd.components.top_app_bar.TopAppBarMMD
 import com.wanderwildwood.mizumori.R
@@ -45,17 +43,25 @@ fun SettingsScreen(
     onLock: () -> Unit,
     onSound: () -> Unit,
     onCalibrate: () -> Unit,
+    hasCalibrationHere: () -> Boolean,
     onResetCalibration: () -> Unit,
 ) {
     var aboutOpen by remember { mutableStateOf(false) }
     var resetArmed by remember { mutableStateOf(false) }
+    var calibrateArmed by remember { mutableStateOf(false) }
 
     // Armed rows disarm themselves, so a stray tap leaves nothing live for whoever picks
     // the phone up next.
     LaunchedEffect(resetArmed) {
         if (resetArmed) {
-            delay(4000)
+            delay(6000)
             resetArmed = false
+        }
+    }
+    LaunchedEffect(calibrateArmed) {
+        if (calibrateArmed) {
+            delay(6000)
+            calibrateArmed = false
         }
     }
 
@@ -110,14 +116,33 @@ fun SettingsScreen(
                 )
             }
             item {
-                HorizontalDividerMMD()
+                Spacer(Modifier.height(16.dp))
             }
             item {
+                // Calibrating replaces the zero saved for the way the phone is held now, so when
+                // there is one the first press only asks, in the row's own face.
                 Setting(
-                    title = stringResource(R.string.settings_calibrate),
-                    value = if (state.isCalibrated) stringResource(R.string.settings_calibration_set) else stringResource(R.string.settings_calibration_not_set),
+                    title = if (calibrateArmed) {
+                        stringResource(R.string.settings_calibrate_armed)
+                    } else {
+                        stringResource(R.string.settings_calibrate)
+                    },
+                    value = if (calibrateArmed) {
+                        stringResource(R.string.settings_calibrate_armed_value)
+                    } else if (state.isCalibrated) {
+                        stringResource(R.string.settings_calibration_set)
+                    } else {
+                        stringResource(R.string.settings_calibration_not_set)
+                    },
                     note = stringResource(R.string.settings_calibrate_note),
-                    onClick = onCalibrate,
+                    onClick = {
+                        if (calibrateArmed || !hasCalibrationHere()) {
+                            onCalibrate()
+                            calibrateArmed = false
+                        } else {
+                            calibrateArmed = true
+                        }
+                    },
                 )
             }
             item {

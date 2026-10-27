@@ -1,5 +1,7 @@
 package com.wanderwildwood.mizumori
 
+import android.content.Context
+import android.hardware.display.DisplayManager
 import android.media.AudioManager
 import android.media.ToneGenerator
 import android.os.Build
@@ -13,6 +15,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -54,7 +58,9 @@ class MainActivity : ComponentActivity() {
 private fun Level(viewModel: LevelViewModel = viewModel()) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
-    var settingsOpen by remember { mutableStateOf(false) }
+    // Saved, so turning the phone with Settings open does not drop back to the level.
+    var settingsOpen by rememberSaveable { mutableStateOf(false) }
+    val rotation = rememberDisplayRotation()
 
     // The accelerometer runs only while this app is in front. A level has no reason
     // whatsoever to be reading the sensors from the background.
@@ -62,7 +68,7 @@ private fun Level(viewModel: LevelViewModel = viewModel()) {
     DisposableEffect(lifecycleOwner, context) {
         val observer = LifecycleEventObserver { _, event ->
             when (event) {
-                Lifecycle.Event.ON_RESUME -> viewModel.start(displayRotation(context))
+                Lifecycle.Event.ON_RESUME -> viewModel.start()
                 Lifecycle.Event.ON_PAUSE -> viewModel.stop()
                 else -> Unit
             }
@@ -97,11 +103,13 @@ private fun Level(viewModel: LevelViewModel = viewModel()) {
             onLock = viewModel::toggleLock,
             onSound = viewModel::toggleSound,
             onCalibrate = viewModel::calibrate,
+            hasCalibrationHere = viewModel::hasCalibrationHere,
             onResetCalibration = viewModel::resetCalibration,
         )
     } else {
         LevelScreen(
             state = state,
+            rotation = rotation,
             onSettings = { settingsOpen = true },
             onToggleDisplay = viewModel::nextDisplay,
         )
@@ -109,15 +117,38 @@ private fun Level(viewModel: LevelViewModel = viewModel()) {
 }
 
 /**
- * Which way the display is turned, which the sensor maths has to undo.
+ * Which way the display is turned, kept current.
  *
- * `Context.display` arrived in API 30 and `WindowManager.defaultDisplay` was deprecated
- * in the same release; this phone is API 31, so the new one is used and the old branch
- * is not carried for a platform this app does not support.
+ * A turn through 180 degrees changes no configuration, so nothing in Compose would notice it;
+ * the display itself is listened to instead.
  */
-private fun displayRotation(context: android.content.Context): Int =
+@Composable
+private fun rememberDisplayRotation(): Int {
+    val context = LocalContext.current
+    var rotation by remember { mutableIntStateOf(displayRotation(context)) }
+    DisposableEffect(context) {
+        val manager = context.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
+        val listener = object : DisplayManager.DisplayListener {
+            override fun onDisplayAdded(displayId: Int) = Unit
+            override fun onDisplayRemoved(displayId: Int) = Unit
+            override fun onDisplayChanged(displayId: Int) {
+                val now = displayRotation(context)
+                if (now != rotation) rotation = now
+            }
+        }
+        manager.registerDisplayListener(listener, null)
+        rotation = displayRotation(context)
+        onDispose { manager.unregisterDisplayListener(listener) }
+    }
+    return rotation
+}
+
+/** Quarter turns, 0 to 3, the numbers of `Surface.ROTATION_*`. */
+@Suppress("DEPRECATION")
+private fun displayRotation(context: Context): Int =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         context.display?.rotation ?: android.view.Surface.ROTATION_0
     } else {
-        android.view.Surface.ROTATION_0
+        (context.getSystemService(Context.WINDOW_SERVICE) as android.view.WindowManager)
+            .defaultDisplay.rotation
     }

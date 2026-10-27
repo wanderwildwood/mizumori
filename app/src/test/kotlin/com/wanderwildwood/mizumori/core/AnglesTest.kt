@@ -187,4 +187,13 @@ class ReadingTest {
         val r = Reading(Orientation.FLAT, pitch = 1f, roll = -4f, balance = 0f)
         assertEquals(-4f, r.angle, 1e-4f)
     }
+
+    /** A phone lying still wobbles a tenth either side of a boundary; that is not a repaint. */
+    @Test
+    fun `a tenth either way is near, two tenths are not`() {
+        assertTrue(Angles.near(1.20f, 1.30f))
+        assertTrue(Angles.near(1.20f, 1.10f))
+        assertTrue(!Angles.near(1.20f, 1.40f))
+        assertTrue(Angles.near(0f, -0.06f))
+    }
 }

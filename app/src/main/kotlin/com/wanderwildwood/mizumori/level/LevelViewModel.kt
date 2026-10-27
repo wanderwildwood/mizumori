@@ -97,14 +97,16 @@ class LevelViewModel(application: Application) : AndroidViewModel(application) {
                         balance = reading.balance - balance,
                     )
                 }
-                // The screen redraws only when a shown digit actually changes. Everything
-                // upstream of this runs many times a second; this is what stops E Ink
-                // being asked to repaint an identical number over and over.
+                // The screen redraws only when a shown number really moves. Everything
+                // upstream of this runs many times a second, and a phone lying still still
+                // flickers a tenth of a degree either side of a boundary; counting that as
+                // no change is what stops E Ink repainting over and over. Each reading is
+                // compared with the one last shown, so a slow drift still gets through.
                 .distinctUntilChanged { old, new ->
                     old.orientation == new.orientation &&
-                        Angles.quantise(old.angle) == Angles.quantise(new.angle) &&
-                        Angles.quantise(old.acrossAngle) == Angles.quantise(new.acrossAngle) &&
-                        Angles.quantise(old.alongAngle) == Angles.quantise(new.alongAngle)
+                        Angles.near(old.angle, new.angle) &&
+                        Angles.near(old.acrossAngle, new.acrossAngle) &&
+                        Angles.near(old.alongAngle, new.alongAngle)
                 }
                 .collect { reading ->
                     _state.update { it.copy(reading = reading, justCalibrated = false) }

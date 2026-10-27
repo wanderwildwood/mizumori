@@ -39,6 +39,9 @@ object Angles {
      */
     fun quantise(degrees: Float): Int = (clean(degrees) * 10f).roundToInt()
 
+    /** Within one tenth of a degree as shown: sensor wobble, not a change worth a repaint. */
+    fun near(a: Float, b: Float): Boolean = kotlin.math.abs(quantise(a) - quantise(b)) <= 1
+
     /**
      * Negative zero is still zero.
      *

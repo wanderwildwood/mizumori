@@ -59,6 +59,7 @@
     <string name="about_accuracy">A phone is not a machinist\'s level. Calibrate it against a surface you trust, and treat the last digit as a hint rather than a fact.</string>
     <string name="about_built_on">After Level by Antoine Vianey and the Bubble fork by woheller69, whose orientation maths this carries.</string>
     <!-- The name of the app's licence -->
+    <string name="about_terms">Level is free software. It comes with no warranty: use it at your own risk.</string>
     <string name="about_licence">GNU General Public License v3 or later</string>
     <string name="about_icons">Icons from Material Symbols, Apache 2.0</string>
     <!-- The donation link label, beside a drawing of a llama. A fixed phrase: a verb and an object, so the reader knows what pressing it does -->

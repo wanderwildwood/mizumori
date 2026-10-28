@@ -31,8 +31,22 @@ import com.wanderwildwood.mizumori.ui.SettingsScreen
 import com.wanderwildwood.mizumori.ui.monochrome
 
 class MainActivity : ComponentActivity() {
+    private val turner = TurnWithPhone(this)
+
+    override fun onResume() {
+        super.onResume()
+        turner.resume()
+    }
+
+    override fun onPause() {
+        turner.pause()
+        super.onPause()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Sideways by watching the tilt itself: the Kompakt never turns the screen on its own.
+        turner.set(true)
 
         // The screen stays on while this app is in front.
         //

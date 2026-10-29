@@ -47,6 +47,7 @@
     <!-- The same row when this way of holding the phone already has a saved zero; a second press replaces it -->
     <string name="settings_calibrate_armed">Calibrate — tap again</string>
     <string name="settings_calibrate_armed_value">Replaces the level saved for the way the phone is held now.</string>
+    <string name="settings_calibrate_armed_new">Sets the level to the way the phone lies now.</string>
     <string name="settings_forget">Forget calibration</string>
     <!-- The same row after one press; a second press forgets -->
     <string name="settings_forget_armed">Forget calibration — tap again</string>
@@ -66,7 +67,7 @@
     <string name="about_accuracy">A phone is not a machinist\'s level. Calibrate it against a surface you trust, and treat the last digit as a hint rather than a fact.</string>
     <string name="about_built_on">After Level by Antoine Vianey and the Bubble fork by woheller69, whose orientation maths this carries.</string>
     <!-- The name of the app's licence -->
-    <string name="about_terms">Level is free software. It comes with no warranty: use it at your own risk.</string>
+    <string name="about_terms">Level is free software. It comes with no warranty: use it at your own risk. It is not a precision instrument: do not rely on it where a wrong reading could cause harm.</string>
     <string name="about_licence">GNU General Public License v3 or later</string>
     <string name="about_icons">Icons from Material Symbols, Apache 2.0</string>
     <!-- The donation link label, beside a drawing of a llama. A fixed phrase: a verb and an object, so the reader knows what pressing it does -->
@@ -75,4 +76,16 @@
     <string name="about_no_browser">There is no browser on this phone to open that with.</string>
     <!-- Button that closes the About dialog -->
     <string name="about_close">Close</string>
+    <!-- Licences page, reached from About -->
+    <string name="licences_title">Licences</string>
+    <string name="licences_source_heading">Source code</string>
+    <string name="licences_source">Source: %1$s</string>
+    <string name="licences_licence_heading">Licence</string>
+    <string name="licences_licence">Level is free software under the GNU General Public License, version 3 or later. Copyright wander wildwood, and 2014 Antoine Vianey for the parts that are his. The full text is below.</string>
+    <string name="licences_built_heading">Built with</string>
+    <string name="licences_gpl">GNU General Public License, version 3</string>
+    <string name="licences_apache">Apache License, version 2.0</string>
+    <string name="licences_ofl">SIL Open Font License, version 1.1</string>
+    <string name="licences_no_browser">No browser is installed.</string>
+    <string name="licences_close">Close</string>
 </resources>

@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.mudita.mmd.components.text.TextMMD
 import com.mudita.mmd.components.top_app_bar.TopAppBarMMD
 import com.wanderwildwood.mizumori.R
+import com.wanderwildwood.mizumori.core.TapAgain
 import com.wanderwildwood.mizumori.core.Display
 import com.wanderwildwood.mizumori.level.LevelState
 import kotlinx.coroutines.delay
@@ -119,8 +120,8 @@ fun SettingsScreen(
                 Spacer(Modifier.height(16.dp))
             }
             item {
-                // Calibrating replaces the zero saved for the way the phone is held now, so when
-                // there is one the first press only asks, in the row's own face.
+                // Calibrating sets the zero for the way the phone is held now (replacing any saved), so the
+                // first press only asks, in the row's own face.
                 Setting(
                     title = if (calibrateArmed) {
                         stringResource(R.string.settings_calibrate_armed)
@@ -128,7 +129,7 @@ fun SettingsScreen(
                         stringResource(R.string.settings_calibrate)
                     },
                     value = if (calibrateArmed) {
-                        stringResource(R.string.settings_calibrate_armed_value)
+                        stringResource(if (hasCalibrationHere()) R.string.settings_calibrate_armed_value else R.string.settings_calibrate_armed_new)
                     } else if (state.isCalibrated) {
                         stringResource(R.string.settings_calibration_set)
                     } else {
@@ -136,12 +137,10 @@ fun SettingsScreen(
                     },
                     note = stringResource(R.string.settings_calibrate_note),
                     onClick = {
-                        if (calibrateArmed || !hasCalibrationHere()) {
-                            onCalibrate()
-                            calibrateArmed = false
-                        } else {
-                            calibrateArmed = true
-                        }
+                        // Always asks first: the first tap arms, the second (within six seconds) sets the zero.
+                        val tap = TapAgain.press(calibrateArmed)
+                        calibrateArmed = tap.armed
+                        if (tap.confirmed) onCalibrate()
                     },
                 )
             }

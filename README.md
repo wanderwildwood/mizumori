@@ -12,7 +12,7 @@ sixteen greys, a slow redraw, and is read outdoors as often as indoors.
 
 | | | | |
 |---|---|---|---|
-| ![Flat](screenshots/01-flat.png) | ![On edge](screenshots/02-edge.png) | ![Settings](screenshots/03-settings.png) | ![About](screenshots/04-about.png) |
+| ![Flat](screenshots/01-flat.png) | ![In percent](screenshots/02-percent.png) | ![Settings](screenshots/03-settings.png) | ![About](screenshots/04-about.png) |
 
 ## How it works
 

@@ -43,43 +43,27 @@ fun AboutDialog(onDismiss: () -> Unit) {
     EInkDialog(onDismiss = onDismiss) {
         // The words scroll and the Close button stays put, so a short screen (the phone on its
         // side) never pushes it out of reach.
-        Column(
-            modifier = Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState()),
+        PagedColumn(
+            modifier = Modifier.weight(1f, fill = false),
+            verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(10.dp),
         ) {
-            TextMMD(
-                text = stringResource(R.string.about_title, BuildConfig.VERSION_NAME),
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Medium,
-            )
-
-            Spacer(Modifier.height(14.dp))
-            Heading(stringResource(R.string.about_privacy_heading))
-            TextMMD(
-                text = stringResource(R.string.about_privacy),
-                style = MaterialTheme.typography.labelSmall,
-            )
-
-            Spacer(Modifier.height(14.dp))
-            TextMMD(
-                text = stringResource(R.string.about_accuracy),
-                style = MaterialTheme.typography.labelSmall,
-            )
-
-            Spacer(Modifier.height(14.dp))
-            TextMMD(
-                text = stringResource(R.string.about_built_on),
-                style = MaterialTheme.typography.labelSmall,
-            )
-
-            Spacer(Modifier.height(14.dp))
-            Heading(stringResource(R.string.about_terms_heading))
-            TextMMD(text = stringResource(R.string.about_terms), style = MaterialTheme.typography.labelSmall)
-            TextMMD(text = stringResource(R.string.about_licence), style = MaterialTheme.typography.labelSmall)
-            TextMMD(text = stringResource(R.string.about_icons), style = MaterialTheme.typography.labelSmall)
-            LicencesLink()
-
-            Spacer(Modifier.height(14.dp))
-            Llama()
+            item {
+                TextMMD(
+                    text = stringResource(R.string.about_title, BuildConfig.VERSION_NAME),
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Medium,
+                )
+            }
+            item { Heading(stringResource(R.string.about_privacy_heading)) }
+            item { TextMMD(text = stringResource(R.string.about_privacy), style = MaterialTheme.typography.labelSmall) }
+            item { TextMMD(text = stringResource(R.string.about_accuracy), style = MaterialTheme.typography.labelSmall) }
+            item { TextMMD(text = stringResource(R.string.about_built_on), style = MaterialTheme.typography.labelSmall) }
+            item { Heading(stringResource(R.string.about_terms_heading)) }
+            item { TextMMD(text = stringResource(R.string.about_terms), style = MaterialTheme.typography.labelSmall) }
+            item { TextMMD(text = stringResource(R.string.about_licence), style = MaterialTheme.typography.labelSmall) }
+            item { TextMMD(text = stringResource(R.string.about_icons), style = MaterialTheme.typography.labelSmall) }
+            item { LicencesLink() }
+            item { Llama() }
         }
 
         Spacer(Modifier.height(18.dp))
@@ -120,13 +104,7 @@ private fun Llama() {
             // The site's address opens the site, the way the llama beside it opens its page.
             modifier = Modifier
                 .clickable {
-                    runCatching {
-                        context.startActivity(
-                            Intent(Intent.ACTION_VIEW, Uri.parse("https://wanderthe.dev")),
-                        )
-                    }.onFailure {
-                        Toast.makeText(context, context.getString(R.string.about_no_browser), Toast.LENGTH_SHORT).show()
-                    }
+                    openLink(context, "https://wanderthe.dev", context.getString(R.string.about_no_browser_address, "wanderthe.dev"))
                 }
                 .heightIn(min = 48.dp)
                 .wrapContentHeight(Alignment.CenterVertically),
@@ -141,13 +119,7 @@ private fun Llama() {
                     // The short square.link form, not the long checkout.square.site address it
                     // redirects to -- the short one is what the site itself links to, so a
                     // regenerated checkout follows it and a published app does not break.
-                    runCatching {
-                        context.startActivity(
-                            Intent(Intent.ACTION_VIEW, Uri.parse("https://square.link/u/AGu8oT10")),
-                        )
-                    }.onFailure {
-                        Toast.makeText(context, context.getString(R.string.about_no_browser), Toast.LENGTH_SHORT).show()
-                    }
+                    openLink(context, "https://square.link/u/AGu8oT10", context.getString(R.string.about_no_browser_address, "square.link/u/AGu8oT10"))
                 }
                 .heightIn(min = 48.dp),
         ) {

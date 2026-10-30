@@ -21,6 +21,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -109,6 +111,8 @@ fun LevelScreen(
 @Composable
 private fun Vial(state: LevelState, rotation: Int, modifier: Modifier) {
     val reading = state.reading ?: return
+    val said = stringResource(if (state.isLevel) R.string.vial_level else R.string.vial_not_level)
+    val modifier = modifier.semantics { contentDescription = said }
     if (reading.orientation.isFlat) {
         val (right, down) = ScreenFrame.flat(reading, rotation)
         FlatVial(rightDegrees = right, downDegrees = down, isLevel = state.isLevel, modifier = modifier)

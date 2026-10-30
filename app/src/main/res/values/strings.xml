@@ -86,6 +86,9 @@
     <string name="licences_gpl">GNU General Public License, version 3</string>
     <string name="licences_apache">Apache License, version 2.0</string>
     <string name="licences_ofl">SIL Open Font License, version 1.1</string>
+    <string name="about_no_browser_address">No browser is installed. The address is %1$s.</string>
+    <string name="vial_level">The vial: level</string>
+    <string name="vial_not_level">The vial: not level</string>
     <string name="licences_no_browser">No browser is installed.</string>
     <string name="licences_close">Close</string>
     <!-- The folio at the foot of a paged list, "2 / 6"; a tap on it asks for a page -->

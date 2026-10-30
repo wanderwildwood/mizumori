@@ -18,8 +18,16 @@
         android:name="android.hardware.sensor.accelerometer"
         android:required="true" />
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
+
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@drawable/ic_launcher_mudita"
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_launcher_mudita"

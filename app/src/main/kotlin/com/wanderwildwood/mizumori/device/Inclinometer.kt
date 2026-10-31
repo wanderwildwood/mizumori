@@ -5,7 +5,6 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.os.Build
 import com.wanderwildwood.mizumori.core.Gravity
 import com.wanderwildwood.mizumori.core.Reading
 import kotlinx.coroutines.channels.awaitClose
@@ -17,17 +16,6 @@ fun hasAccelerometer(context: Context): Boolean {
     val manager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     return manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null
 }
-
-/**
- * The Kompakt's accelerometer is mounted turned: its x axis points out of the screen and its
- * z axis runs down the long edge. Android's own orientation code reads an upright Kompakt as
- * lying flat, so the readings are put back into the usual frame (x right, y up, z out of the
- * screen) before any angle is taken from them.
- */
-private val MOUNTED_TURNED = Build.MANUFACTURER.equals("Mudita", ignoreCase = true)
-
-internal fun phoneFrame(sx: Float, sy: Float, sz: Float, turned: Boolean = MOUNTED_TURNED): Triple<Float, Float, Float> =
-    if (turned) Triple(-sy, -sz, sx) else Triple(sx, sy, sz)
 
 /**
  * A stream of raw, uncalibrated readings from the accelerometer.
@@ -51,8 +39,7 @@ fun readings(context: Context): Flow<Reading> = callbackFlow {
 
         override fun onSensorChanged(event: SensorEvent?) {
             if (event == null) return
-            val (x, y, z) = phoneFrame(event.values[0], event.values[1], event.values[2])
-            Gravity.reading(x, y, z)?.let { trySend(it) }
+            Gravity.reading(event.values[0], event.values[1], event.values[2])?.let { trySend(it) }
         }
     }
 

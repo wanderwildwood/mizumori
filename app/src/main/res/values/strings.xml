@@ -79,10 +79,9 @@
     <!-- Licences page, reached from About -->
     <string name="licences_title">Licences</string>
     <string name="licences_source_head">Source code</string>
+    <string name="licences_no_text">%s needs no licence text here.</string>
     <string name="licences_source">Source: %1$s</string>
-    <string name="licences_licence_head">Licence</string>
     <string name="licences_licence">Level is free software under the GNU General Public License, version 3 or later. Copyright wander wildwood, and 2014 Antoine Vianey for the parts that are his.</string>
-    <string name="licences_built_head">Built with</string>
     <string name="about_no_browser_address">No browser is installed. The address is %1$s.</string>
     <string name="vial_level">The vial: level</string>
     <string name="vial_not_level">The vial: not level</string>

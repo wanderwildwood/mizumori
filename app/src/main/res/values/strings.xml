@@ -71,16 +71,14 @@
     <string name="about_licence">GNU General Public License v3 or later</string>
     <string name="about_icons">Icons from Material Symbols, Apache 2.0</string>
     <!-- The donation link label, beside a drawing of a llama. A fixed phrase: a verb and an object, so the reader knows what pressing it does -->
-    <string name="about_feed_the_llamas">feed the llamas</string>
+    <string name="about_feed_the_llamas">Feed the llamas</string>
     <!-- Toast when no app on the phone can open the donation link -->
-    <string name="about_no_browser">There is no browser on this phone to open that with.</string>
     <!-- Button that closes the About dialog -->
     <string name="about_close">Close</string>
     <!-- Licences page, reached from About -->
     <string name="licences_title">Licences</string>
     <string name="licences_source_head">Source code</string>
     <string name="licences_no_text">%s needs no licence text here.</string>
-    <string name="licences_source">Source: %1$s</string>
     <string name="licences_licence">Level is free software under the GNU General Public License, version 3 or later. Copyright wander wildwood, and 2014 Antoine Vianey for the parts that are his.</string>
     <string name="about_no_browser_address">No browser is installed. The address is %1$s.</string>
     <string name="vial_level">The vial: level</string>

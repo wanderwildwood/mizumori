@@ -1,12 +1,13 @@
 package com.wanderwildwood.mizumori.level
 
 import android.app.Application
+import android.os.SystemClock
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.wanderwildwood.mizumori.core.Angles
 import com.wanderwildwood.mizumori.core.Display
 import com.wanderwildwood.mizumori.core.Orientation
 import com.wanderwildwood.mizumori.core.Reading
+import com.wanderwildwood.mizumori.core.Steady
 import com.wanderwildwood.mizumori.device.hasAccelerometer
 import com.wanderwildwood.mizumori.device.readings
 import kotlinx.coroutines.Job
@@ -54,6 +55,8 @@ class LevelViewModel(application: Application) : AndroidViewModel(application) {
 
     private var job: Job? = null
 
+    private val steady = Steady()
+
     /** The last raw reading, kept so calibrate can zero against what is on the screen now. */
     private var raw: Reading? = null
 
@@ -68,6 +71,7 @@ class LevelViewModel(application: Application) : AndroidViewModel(application) {
             return
         }
 
+        steady.reset()
         _state.update {
             it.copy(
                 display = preferences.display,
@@ -97,19 +101,17 @@ class LevelViewModel(application: Application) : AndroidViewModel(application) {
                         balance = reading.balance - balance,
                     )
                 }
-                // The screen redraws only when a shown number really moves. Everything
-                // upstream of this runs many times a second, and a phone lying still still
-                // flickers a tenth of a degree either side of a boundary; counting that as
-                // no change is what stops E Ink repainting over and over. Each reading is
-                // compared with the one last shown, so a slow drift still gets through.
-                .distinctUntilChanged { old, new ->
-                    old.orientation == new.orientation &&
-                        Angles.near(old.angle, new.angle) &&
-                        Angles.near(old.acrossAngle, new.acrossAngle) &&
-                        Angles.near(old.alongAngle, new.alongAngle)
-                }
+                // What reaches the screen changes only when the phone has really moved: smoothed,
+                // rounded to the tenth that is printed, a full tenth away for half a second, and
+                // at most twice a second. Held still, the same object comes back every time and
+                // the state below does not change, so nothing is drawn (see [Steady]).
+                .map { reading -> steady.offer(reading, SystemClock.elapsedRealtime()) }
+                .distinctUntilChanged()
                 .collect { reading ->
-                    _state.update { it.copy(reading = reading, justCalibrated = false) }
+                    _state.update {
+                        if (it.reading == reading && !it.justCalibrated) it
+                        else it.copy(reading = reading, justCalibrated = false)
+                    }
                 }
         }
     }
@@ -142,9 +144,12 @@ class LevelViewModel(application: Application) : AndroidViewModel(application) {
     fun calibrate() {
         val current = raw ?: return
         preferences.calibrate(current)
+        // The readings now arrive relative to a new zero; the smoothing starts over from it.
+        val zero = Reading(current.orientation, 0f, 0f, 0f)
+        steady.seed(zero, SystemClock.elapsedRealtime())
         _state.update {
             it.copy(
-                reading = Reading(current.orientation, 0f, 0f, 0f),
+                reading = zero,
                 isCalibrated = true,
                 justCalibrated = true,
             )
@@ -159,6 +164,8 @@ class LevelViewModel(application: Application) : AndroidViewModel(application) {
 
     fun resetCalibration() {
         preferences.resetCalibration()
+        // The zero just moved; show the uncorrected reading straight away, not after the hold.
+        steady.reset()
         _state.update { it.copy(isCalibrated = false, justCalibrated = false) }
     }
 }

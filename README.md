@@ -6,7 +6,7 @@ A spirit level for an E Ink phone. Black on white, one line weight, and nothing 
 screen that is not the instrument.
 
 Built for the [Mudita Kompakt](https://mudita.com/products/kompakt/), whose 4.3" panel has
-sixteen greys, a slow redraw, and is read outdoors as often as indoors.
+sixteen grays, a slow redraw, and is read outdoors as often as indoors.
 
 ## Screenshots
 
@@ -97,7 +97,7 @@ For updates without doing this by hand, add this repository to
 
     https://github.com/wanderwildwood/mizumori
 
-## Licence
+## License
 
 **GNU General Public License v3.0 or later.** See [LICENSE](LICENSE).
 

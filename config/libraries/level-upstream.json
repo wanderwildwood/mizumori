@@ -1,0 +1,14 @@
+{
+  "uniqueId": "level-upstream",
+  "name": "Level (upstream)",
+  "description": "The app this one started from: the orientation and angle math, carried through the Bubble fork.",
+  "developers": [
+    {
+      "name": "Antoine Vianey"
+    }
+  ],
+  "website": "https://github.com/avianey/Level",
+  "licenses": [
+    "GPL-3.0-or-later"
+  ]
+}

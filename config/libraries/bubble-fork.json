@@ -1,0 +1,14 @@
+{
+  "uniqueId": "bubble-fork",
+  "name": "Bubble, a fork of Level",
+  "description": "The fork this app is built on; its orientation math is carried here.",
+  "developers": [
+    {
+      "name": "woheller69"
+    }
+  ],
+  "website": "https://github.com/woheller69/level",
+  "licenses": [
+    "GPL-3.0-or-later"
+  ]
+}

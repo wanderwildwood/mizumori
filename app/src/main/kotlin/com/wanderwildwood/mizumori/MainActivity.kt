@@ -26,6 +26,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mudita.mmd.ThemeMMD
 import com.wanderwildwood.mizumori.level.LevelViewModel
+import com.wanderwildwood.mizumori.ui.ArmedScope
 import com.wanderwildwood.mizumori.ui.LevelScreen
 import com.wanderwildwood.mizumori.ui.SettingsScreen
 import com.wanderwildwood.mizumori.ui.monochrome
@@ -62,7 +63,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ThemeMMD(colorScheme = monochrome) {
-                Level()
+                ArmedScope { Level() }
             }
         }
     }

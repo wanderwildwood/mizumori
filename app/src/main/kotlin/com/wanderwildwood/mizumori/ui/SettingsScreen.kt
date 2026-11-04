@@ -11,7 +11,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,7 +24,6 @@ import com.wanderwildwood.mizumori.R
 import com.wanderwildwood.mizumori.core.TapAgain
 import com.wanderwildwood.mizumori.core.Display
 import com.wanderwildwood.mizumori.level.LevelState
-import kotlinx.coroutines.delay
 
 /**
  * Four things to set and one to undo.
@@ -48,23 +46,11 @@ fun SettingsScreen(
     onResetCalibration: () -> Unit,
 ) {
     var aboutOpen by remember { mutableStateOf(false) }
-    var resetArmed by remember { mutableStateOf(false) }
-    var calibrateArmed by remember { mutableStateOf(false) }
+    var resetArmed by rememberArmedFlag()
+    var calibrateArmed by rememberArmedFlag()
 
-    // Armed rows disarm themselves, so a stray tap leaves nothing live for whoever picks
-    // the phone up next.
-    LaunchedEffect(resetArmed) {
-        if (resetArmed) {
-            delay(6000)
-            resetArmed = false
-        }
-    }
-    LaunchedEffect(calibrateArmed) {
-        if (calibrateArmed) {
-            delay(6000)
-            calibrateArmed = false
-        }
-    }
+    // An armed row stays armed until the next other touch, Back (which only disarms) or
+    // leaving the screen. No timer: a question should not take itself back while it is read.
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surface,
@@ -137,7 +123,7 @@ fun SettingsScreen(
                     },
                     note = stringResource(R.string.settings_calibrate_note),
                     onClick = {
-                        // Always asks first: the first tap arms, the second (within six seconds) sets the zero.
+                        // Always asks first: the first tap arms, the second sets the zero.
                         val tap = TapAgain.press(calibrateArmed)
                         calibrateArmed = tap.armed
                         if (tap.confirmed) onCalibrate()

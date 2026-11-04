@@ -29,6 +29,7 @@ import com.wanderwildwood.mizumori.level.LevelViewModel
 import com.wanderwildwood.mizumori.ui.ArmedScope
 import com.wanderwildwood.mizumori.ui.LevelScreen
 import com.wanderwildwood.mizumori.ui.SettingsScreen
+import com.wanderwildwood.mizumori.ui.houseTypography
 import com.wanderwildwood.mizumori.ui.monochrome
 
 class MainActivity : ComponentActivity() {
@@ -62,7 +63,7 @@ class MainActivity : ComponentActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         setContent {
-            ThemeMMD(colorScheme = monochrome) {
+            ThemeMMD(colorScheme = monochrome, typography = houseTypography) {
                 ArmedScope { Level() }
             }
         }

@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mudita.mmd.components.text.TextMMD
@@ -45,6 +46,7 @@ fun SettingsScreen(
     hasCalibrationHere: () -> Boolean,
     onResetCalibration: () -> Unit,
 ) {
+    val context = LocalContext.current
     var aboutOpen by remember { mutableStateOf(false) }
     var resetArmed by rememberArmedFlag()
     var calibrateArmed by rememberArmedFlag()
@@ -100,6 +102,14 @@ fun SettingsScreen(
                     value = if (state.soundWhenLevel) stringResource(R.string.settings_on) else stringResource(R.string.settings_off),
                     note = stringResource(R.string.settings_sound_note),
                     onClick = onSound,
+                )
+            }
+            item {
+                Setting(
+                    title = stringResource(R.string.settings_dark),
+                    value = if (DarkMode.on) stringResource(R.string.settings_on) else stringResource(R.string.settings_off),
+                    note = stringResource(R.string.settings_dark_note),
+                    onClick = { DarkMode.set(context, !DarkMode.on) },
                 )
             }
             item {

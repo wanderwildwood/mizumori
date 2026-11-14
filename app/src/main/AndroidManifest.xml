@@ -19,6 +19,8 @@
         android:required="true" />
 
     <queries>
+        <!-- Home, whose dark mode switch this app follows when Home is installed. -->
+        <package android:name="com.wanderwildwood.iori" />
         <intent>
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.BROWSABLE" />
@@ -35,6 +37,12 @@
         android:roundIcon="@drawable/ic_launcher_mudita"
         android:supportsRtl="true"
         android:theme="@style/Theme.App">
+        <!-- Starts dark mode before the first screen is drawn. Holds no data. -->
+        <provider
+            android:name="com.wanderwildwood.mizumori.ui.DarkModeInit"
+            android:authorities="${applicationId}.darkmodeinit"
+            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

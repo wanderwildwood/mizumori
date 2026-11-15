@@ -17,6 +17,8 @@
     <string name="level_is_level">Level</string>
     <!-- Shown when the orientation lock setting is on -->
     <string name="level_orientation_locked">Orientation locked</string>
+    <!-- Under the reading when the "Sound when level" tone could not play on this phone -->
+    <string name="level_sound_failed">The sound could not play on this phone.</string>
     <string name="level_no_sensor">This phone has no accelerometer, so it cannot be a level.</string>
 
     <!-- ============================================================ -->

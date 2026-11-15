@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -96,22 +97,33 @@ private fun Level(viewModel: LevelViewModel = viewModel()) {
     // A short tone the moment it comes level, and nothing while it stays level. Keyed on
     // the boolean so it fires on the edge rather than on every reading, which would be a
     // continuous beep for as long as the phone sat still.
+    //
+    // A tone that cannot sound (the phone's sound system refusing a generator) says so on the
+    // level screen, rather than leaving a setting that seems to do nothing. The words stay until
+    // the next press.
+    var soundFailed by rememberSaveable { mutableStateOf(false) }
     LaunchedEffect(state.isLevel, state.soundWhenLevel) {
         if (state.isLevel && state.soundWhenLevel) {
-            runCatching {
-                ToneGenerator(AudioManager.STREAM_NOTIFICATION, 70).apply {
-                    startTone(ToneGenerator.TONE_PROP_BEEP, 120)
-                    // Released on a delay rather than at once: releasing the generator
-                    // while the tone is still sounding cuts it off silently on some
-                    // devices, which looks exactly like the setting not working.
-                    kotlinx.coroutines.delay(300)
-                    release()
-                }
+            val tone = runCatching { ToneGenerator(AudioManager.STREAM_NOTIFICATION, 70) }.getOrNull()
+            if (tone == null) {
+                soundFailed = true
+                return@LaunchedEffect
+            }
+            try {
+                if (!tone.startTone(ToneGenerator.TONE_PROP_BEEP, 120)) soundFailed = true
+                // Released on a delay rather than at once: releasing the generator
+                // while the tone is still sounding cuts it off silently on some
+                // devices, which looks exactly like the setting not working.
+                kotlinx.coroutines.delay(300)
+            } finally {
+                tone.release()
             }
         }
     }
 
     if (settingsOpen) {
+        // Back closes Settings onto the level, as its close button does, rather than leaving the app.
+        BackHandler { settingsOpen = false }
         SettingsScreen(
             state = state,
             onClose = { settingsOpen = false },
@@ -126,8 +138,9 @@ private fun Level(viewModel: LevelViewModel = viewModel()) {
         LevelScreen(
             state = state,
             rotation = rotation,
-            onSettings = { settingsOpen = true },
-            onToggleDisplay = viewModel::nextDisplay,
+            soundFailed = soundFailed,
+            onSettings = { soundFailed = false; settingsOpen = true },
+            onToggleDisplay = { soundFailed = false; viewModel.nextDisplay() },
         )
     }
 }

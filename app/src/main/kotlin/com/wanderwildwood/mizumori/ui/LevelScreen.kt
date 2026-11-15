@@ -21,7 +21,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -47,6 +49,7 @@ import com.wanderwildwood.mizumori.level.LevelState
 fun LevelScreen(
     state: LevelState,
     rotation: Int,
+    soundFailed: Boolean,
     onSettings: () -> Unit,
     onToggleDisplay: () -> Unit,
 ) {
@@ -90,7 +93,7 @@ fun LevelScreen(
                     Column(
                         modifier = Modifier.weight(1f),
                         horizontalAlignment = Alignment.CenterHorizontally,
-                    ) { Readout(state, onToggleDisplay) }
+                    ) { Readout(state, soundFailed, onToggleDisplay) }
                 }
             } else {
                 Column(
@@ -100,7 +103,7 @@ fun LevelScreen(
                     Spacer(Modifier.height(20.dp))
                     Vial(state, rotation, Modifier.fillMaxWidth().height(if (reading.orientation.isFlat) 260.dp else 120.dp))
                     Spacer(Modifier.height(20.dp))
-                    Readout(state, onToggleDisplay)
+                    Readout(state, soundFailed, onToggleDisplay)
                 }
             }
         }
@@ -123,7 +126,7 @@ private fun Vial(state: LevelState, rotation: Int, modifier: Modifier) {
 
 /** The angle in words and a press on it changes what the number means. */
 @Composable
-private fun Readout(state: LevelState, onToggleDisplay: () -> Unit) {
+private fun Readout(state: LevelState, soundFailed: Boolean, onToggleDisplay: () -> Unit) {
     val reading = state.reading ?: return
     Column(
         modifier = Modifier
@@ -159,6 +162,17 @@ private fun Readout(state: LevelState, onToggleDisplay: () -> Unit) {
         if (state.lockOrientation) {
             Spacer(Modifier.height(4.dp))
             TextMMD(text = stringResource(R.string.level_orientation_locked), style = MaterialTheme.typography.labelSmall)
+        }
+
+        // Said when the tone for "Sound when level" could not play; gone at the next press.
+        if (soundFailed) {
+            Spacer(Modifier.height(8.dp))
+            TextMMD(
+                text = stringResource(R.string.level_sound_failed),
+                style = MaterialTheme.typography.bodySmall,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite },
+            )
         }
     }
 }

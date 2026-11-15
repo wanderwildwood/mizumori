@@ -32,6 +32,7 @@ import com.wanderwildwood.mizumori.ui.LevelScreen
 import com.wanderwildwood.mizumori.ui.SettingsScreen
 import com.wanderwildwood.mizumori.ui.houseTypography
 import com.wanderwildwood.mizumori.ui.monochrome
+import com.wanderwildwood.mizumori.ui.DarkSelection
 
 class MainActivity : ComponentActivity() {
     private val turner = TurnWithPhone(this)
@@ -64,9 +65,9 @@ class MainActivity : ComponentActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         setContent {
-            ThemeMMD(colorScheme = monochrome, typography = houseTypography) {
+            ThemeMMD(colorScheme = monochrome, typography = houseTypography) { DarkSelection {
                 ArmedScope { Level() }
-            }
+            } }
         }
     }
 }

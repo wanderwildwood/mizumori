@@ -64,11 +64,11 @@
     <!-- Heading of the terms paragraph in About -->
     <string name="about_terms_heading">Terms</string>
     <string name="about_what">A spirit level that knows whether it is lying flat or standing on an edge, and shows the right vial for each. It says level only when it is.</string>
-    <string name="about_privacy">No permissions at all, and no internet access, so nothing is sent anywhere and nothing is collected about you. It reads the phone\'s own accelerometer and keeps only your settings and calibration on this phone. There are no ads, no analytics and no tracking.</string>
+    <string name="about_privacy">No permissions at all, and no internet access, so nothing is sent anywhere and nothing is collected about you. It reads the phone\'s own accelerometer and keeps only your settings and calibration on this phone. There are no ads, no analytics and no tracking. \"Feed the llamas\" in About opens a donation page (square.link) in your browser, only when you press it. The app sends nothing there; if you give, the payment is handled on that page by Square, not by this app.</string>
     <string name="about_accuracy">A phone is not a machinist\'s level. Calibrate it against a surface you trust, and treat the last digit as a hint rather than a fact.</string>
     <string name="about_built_on">After Level by Antoine Vianey and the Bubble fork by woheller69, whose orientation math this carries.</string>
     <!-- The name of the app's licence -->
-    <string name="about_terms">Level is free software. It comes with no warranty: use it at your own risk. It is not a precision instrument: do not rely on it where a wrong reading could cause harm.</string>
+    <string name="about_terms">Level is free software. It comes with no warranty: use it at your own risk. It is not a precision instrument: do not rely on it where a wrong reading could cause harm. A donation through \"Feed the llamas\" is voluntary and unlocks nothing: the app is the same with or without one.</string>
     <string name="about_licence">GNU General Public License v3 or later</string>
     <string name="about_icons">Icons from Material Symbols, Apache 2.0</string>
     <!-- The donation link label, beside a drawing of a llama. A fixed phrase: a verb and an object, so the reader knows what pressing it does -->

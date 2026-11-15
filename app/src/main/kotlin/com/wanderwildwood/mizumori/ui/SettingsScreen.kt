@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -25,6 +27,10 @@ import com.wanderwildwood.mizumori.R
 import com.wanderwildwood.mizumori.core.TapAgain
 import com.wanderwildwood.mizumori.core.Display
 import com.wanderwildwood.mizumori.level.LevelState
+import kotlinx.coroutines.launch
+
+/** Calibrate's place in the settings list: the top spacer, four settings, the spacer before it. */
+private const val CALIBRATE_ROW = 6
 
 /**
  * Four things to set and one to undo.
@@ -50,6 +56,8 @@ fun SettingsScreen(
     var aboutOpen by remember { mutableStateOf(false) }
     var resetArmed by rememberArmedFlag()
     var calibrateArmed by rememberArmedFlag()
+    val list = rememberLazyListState()
+    val scope = rememberCoroutineScope()
 
     // An armed row stays armed until the next other touch, Back (which only disarms) or
     // leaving the screen. No timer: a question should not take itself back while it is read.
@@ -68,6 +76,7 @@ fun SettingsScreen(
         // stops, with no scrollbar beside it. A settings screen that coasts was the one
         // screen in the app that did not behave like the phone it is on.
         PagedColumn(
+            state = list,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(contentPadding)
@@ -160,6 +169,10 @@ fun SettingsScreen(
                             if (resetArmed) {
                                 onResetCalibration()
                                 resetArmed = false
+                                // This row now goes, and it may have been alone on the last page: the
+                                // list turns to Calibrate, which now says "Not set", instead of a page
+                                // left blank past the end of a shorter list.
+                                scope.launch { list.scrollToItem(CALIBRATE_ROW) }
                             } else {
                                 resetArmed = true
                             }

@@ -117,7 +117,6 @@ fun SettingsScreen(
                 Setting(
                     title = stringResource(R.string.settings_dark),
                     value = if (DarkMode.on) stringResource(R.string.settings_on) else stringResource(R.string.settings_off),
-                    note = stringResource(R.string.settings_dark_note),
                     onClick = { DarkMode.set(context, !DarkMode.on) },
                 )
             }

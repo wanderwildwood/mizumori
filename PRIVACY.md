@@ -20,15 +20,20 @@ and Android drops it by itself the moment the app is no longer in front.
 
 ## What is stored
 
-Four things, all in `SharedPreferences`, all visible in `level/Preferences.kt`:
+Five things, all in `SharedPreferences`, visible in `level/Preferences.kt` and
+`ui/DarkMode.kt`:
 
 - whether you read it in degrees or percent,
 - whether the orientation is locked,
 - whether it beeps when level,
 - your calibration offsets — three small numbers for each of the five ways of holding the
-  phone.
+  phone,
+- whether dark mode is on, and Home's dark switch as last heard.
 
 Nothing else. No history of readings, no log, no file.
+
+If Home (`com.wanderwildwood.iori`) is installed, Level asks it whether its dark switch is
+on, so the two follow one switch. That is all it reads from Home, and it sends Home nothing.
 
 ## No analytics
 

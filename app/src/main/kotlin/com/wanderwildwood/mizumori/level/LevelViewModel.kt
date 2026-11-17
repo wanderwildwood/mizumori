@@ -143,9 +143,12 @@ class LevelViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun calibrate() {
         val current = raw ?: return
-        preferences.calibrate(current)
+        // The zero is kept under the way of holding it that is on the screen (the locked one
+        // while the lock is on), and taken from the steadied reading, not one raw sample.
+        val orientation = if (preferences.lockOrientation) locked ?: current.orientation else current.orientation
+        preferences.calibrate(zeroFor(orientation, current))
         // The readings now arrive relative to a new zero; the smoothing starts over from it.
-        val zero = Reading(current.orientation, 0f, 0f, 0f)
+        val zero = Reading(orientation, 0f, 0f, 0f)
         steady.seed(zero, SystemClock.elapsedRealtime())
         _state.update {
             it.copy(
@@ -154,6 +157,17 @@ class LevelViewModel(application: Application) : AndroidViewModel(application) {
                 justCalibrated = true,
             )
         }
+    }
+
+    /**
+     * The uncorrected reading to save as zero: the steadied one with the old zero added back,
+     * or the last raw sample when nothing has been steadied for this orientation yet.
+     */
+    private fun zeroFor(orientation: Orientation, current: Reading): Reading {
+        val steadied = steady.average?.takeIf { it.orientation == orientation }
+            ?: return current.copy(orientation = orientation)
+        val (pitch, roll, balance) = preferences.calibration(orientation)
+        return Reading(orientation, steadied.pitch + pitch, steadied.roll + roll, steadied.balance + balance)
     }
 
     /** Whether pressing Calibrate now would replace a zero saved for this way of holding it. */

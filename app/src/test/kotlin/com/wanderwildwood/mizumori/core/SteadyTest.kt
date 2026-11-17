@@ -126,4 +126,17 @@ class SteadyTest {
         assertEquals(0, count)
         assertSame(zero, shown)
     }
+
+    /** Calibrate zeroes against the average: on a noisy still phone it sits near the true angle, unrounded. */
+    @Test
+    fun `the average is the smoothed reading, close to the true angle under noise`() {
+        val steady = Steady()
+        val random = Random(7)
+        changes(steady, 0L, 5_000L) { flat(0.43f + (random.nextFloat() - 0.5f) * 0.4f, -1.17f) }
+        val average = steady.average!!
+        assertEquals(0.43f, average.roll, 0.15f)
+        assertEquals(-1.17f, average.pitch, 1e-4f)
+        steady.reset()
+        assertEquals(null, steady.average)
+    }
 }

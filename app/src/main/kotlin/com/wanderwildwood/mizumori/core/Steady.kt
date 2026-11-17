@@ -34,6 +34,9 @@ class Steady(
     private var shownAt = 0L
     private var movedSince: Long? = null
 
+    /** The smoothed reading before it is rounded for the screen, or null before the first one. */
+    val average: Reading? get() = smoothed
+
     /** Forget everything, so the next reading is shown at once (after a calibration, say). */
     fun reset() {
         smoothed = null

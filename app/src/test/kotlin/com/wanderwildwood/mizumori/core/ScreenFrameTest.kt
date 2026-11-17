@@ -67,23 +67,25 @@ class ScreenFrameTest {
     }
 
     /**
-     * Turned a quarter, the phone's own y axis runs along the screen's width (to the right
-     * at rotation 1), so a high y axis is a bubble to the right.
+     * Rotation 1 is the pose TurnWithPhone calls landscape, the phone turned with its top to
+     * the left (TurnWithPhoneTest's recorded "top to the left"). The phone's own y axis then
+     * runs to the screen's left and its x axis up the screen, so a high top is a bubble to
+     * the left and a high right side (now the screen's top) a bubble towards the top.
      */
     @Test
-    fun `turned a quarter, a high y axis is to the right`() {
+    fun `turned a quarter, top to the left, a high top is to the left`() {
         val (right, down) = flat(yHigh, 1)
-        assertTrue(right > 5f); assertEquals(0f, down, 1e-3f)
+        assertTrue(right < -5f); assertEquals(0f, down, 1e-3f)
         val (r2, d2) = flat(xHigh, 1)
-        assertEquals(0f, r2, 1e-3f); assertTrue(d2 > 5f)
+        assertEquals(0f, r2, 1e-3f); assertTrue(d2 < -5f)
     }
 
     @Test
-    fun `turned three quarters, the other way round`() {
+    fun `turned three quarters, top to the right, the other way round`() {
         val (right, _) = flat(yHigh, 3)
-        assertTrue(right < -5f)
+        assertTrue(right > 5f)
         val (_, down) = flat(xHigh, 3)
-        assertTrue(down < -5f)
+        assertTrue(down > 5f)
     }
 
     @Test
@@ -122,13 +124,20 @@ class ScreenFrameTest {
 
     @Test
     fun `on its long edge turned sideways, the high end is the bubble's side`() {
-        // Standing on the long edge, screen turned a quarter: the phone's +y end is to the right.
-        val yEndHigh = Gravity.reading(9.8f, 0.5f, 0f)!!  // on edge, +y end high
-        assertEquals(Orientation.RIGHT, yEndHigh.orientation)
-        val quarter = ScreenFrame.edge(yEndHigh, 1)
-        val threeQuarters = ScreenFrame.edge(yEndHigh, 3)
-        assertTrue(quarter > 0f)
-        assertEquals(-quarter, threeQuarters, 1e-3f)
+        // Standing on its left edge (right side up) is the pose TurnWithPhone turns to
+        // rotation 1: the phone's top (+y end) is at the screen's left. Top end high, so the
+        // bubble goes left.
+        val topToTheLeft = Gravity.reading(9.8f, 0.5f, 0f)!!
+        assertEquals(Orientation.RIGHT, topToTheLeft.orientation)
+        val quarter = ScreenFrame.edge(topToTheLeft, 1)
+        assertTrue(quarter < -2f)
+        assertEquals(-quarter, ScreenFrame.edge(topToTheLeft, 3), 1e-3f)
+
+        // Standing on its right edge is rotation 3, top at the screen's right: the high top
+        // end is a bubble to the right.
+        val topToTheRight = Gravity.reading(-9.8f, 0.5f, 0f)!!
+        assertEquals(Orientation.LEFT, topToTheRight.orientation)
+        assertTrue(ScreenFrame.edge(topToTheRight, 3) > 2f)
     }
 
     @Test

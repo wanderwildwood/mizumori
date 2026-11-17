@@ -50,9 +50,11 @@ object ScreenFrame {
         val a = reading.acrossAngle
         val p = reading.alongAngle
         return when (rotation and 3) {
-            1 -> Pair(-p, a)
+            // Rotation 1 is the phone turned with its top to the left (what Android calls
+            // landscape): the screen's right is the phone's -y, its bottom the phone's -x.
+            1 -> Pair(p, -a)
             2 -> Pair(-a, -p)
-            3 -> Pair(p, -a)
+            3 -> Pair(-p, a)
             else -> Pair(a, p)
         }
     }
@@ -69,8 +71,8 @@ object ScreenFrame {
         return when (reading.orientation) {
             Orientation.TOP, Orientation.BOTTOM -> if (r == 2) -reading.angle else reading.angle
             Orientation.LEFT, Orientation.RIGHT -> when (r) {
-                1 -> -reading.angle
-                2 -> -reading.angle
+                // Top to the left at rotation 1: a high top end (a negative pitch) is to the left.
+                2, 3 -> -reading.angle
                 else -> reading.angle
             }
             Orientation.FLAT -> reading.angle

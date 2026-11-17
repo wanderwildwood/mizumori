@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -73,14 +74,15 @@ fun SettingsScreen(
         },
     ) { contentPadding ->
         // A paged list, not a scrolling Column: it turns a page on whole rows to a swipe and
-        // stops, with no scrollbar beside it. A settings screen that coasts was the one
-        // screen in the app that did not behave like the phone it is on.
+        // stops. A settings screen that coasts was the one screen in the app that did not
+        // behave like the phone it is on. The side padding goes on the rows, not the list,
+        // so the scrollbar sits at the screen's edge when the rows need a second page.
         PagedColumn(
             state = list,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(contentPadding)
-                .padding(horizontal = 20.dp),
+                .padding(contentPadding),
+            contentPadding = PaddingValues(start = 20.dp, end = 12.dp),
         ) {
             item {
                 Spacer(Modifier.height(12.dp))

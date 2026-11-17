@@ -77,8 +77,9 @@ fallback key by design.
 
 After [Level](https://github.com/avianey/Level) by Antoine Vianey (2014) and the
 [Bubble](https://github.com/woheller69/level) fork by woheller69, from which this carries
-the orientation math — in particular the trick of feeding `getRotationMatrix` a constant
-dummy magnetic field, since a spirit level has no interest in which way north is.
+the orientation math. Upstream fed `getRotationMatrix` a constant dummy magnetic field,
+since a spirit level has no interest in which way north is; this works the same angles out
+directly from the accelerometer, without the one pose that call refuses.
 
 The interface is a rebuild rather than a reskin: Jetpack Compose against
 [MMD](https://github.com/mudita/MMD), Mudita's E Ink component library, where the original

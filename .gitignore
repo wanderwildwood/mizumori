@@ -4,11 +4,9 @@
 build/
 local.properties
 
-signing/signing.properties
-signing/signing.keystore
+# The signing key never enters the repository: everything in signing/ is ignored
+/signing/*
+!/signing/.gitignore
 
-# Built screenshots come from the kompakt AVD, not from a build
-*.apk
-
-# Built screenshots come from the kompakt AVD, not from a build
+# APKs are build output
 *.apk

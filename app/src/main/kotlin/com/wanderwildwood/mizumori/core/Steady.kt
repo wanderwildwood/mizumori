@@ -91,11 +91,13 @@ class Steady(
         val dt = (nowMs - lastSampleAt).coerceAtLeast(0L)
         lastSampleAt = nowMs
         // A new way of holding it, or an angle that wrapped round past 180, starts afresh:
-        // averaging across either would pass through readings that never happened.
+        // averaging across either would pass through readings that never happened. Lying flat
+        // the edge balance is not shown and swings from one side to the other on noise alone
+        // near level, so it does not count there: it would keep throwing the average away.
         if (previous == null || previous.orientation != reading.orientation ||
             abs(previous.pitch - reading.pitch) > 90f ||
             abs(previous.roll - reading.roll) > 90f ||
-            abs(previous.balance - reading.balance) > 90f
+            (reading.orientation != Orientation.FLAT && abs(previous.balance - reading.balance) > 90f)
         ) {
             return reading.also { smoothed = it }
         }

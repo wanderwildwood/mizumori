@@ -104,6 +104,19 @@ class SteadyTest {
         assertEquals(0, count)
     }
 
+    /** Flat and near level the balance flips sign on noise; the average of what is shown must still hold. */
+    @Test
+    fun `a balance flipping sign lying flat does not restart the average`() {
+        val steady = Steady()
+        var flip = false
+        changes(steady, 0L, 5_000L) {
+            flip = !flip
+            Reading(Orientation.FLAT, pitch = -1.17f, roll = if (flip) 0.13f else 0.73f, balance = if (flip) 85f else -85f)
+        }
+        // Restarted on every flip, the average would be the last raw sample (0.73 or 0.13).
+        assertEquals(0.43f, steady.average!!.roll, 0.1f)
+    }
+
     @Test
     fun `turning it onto an edge is shown`() {
         val steady = Steady()

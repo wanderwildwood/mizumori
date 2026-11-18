@@ -145,7 +145,7 @@ class LevelViewModel(application: Application) : AndroidViewModel(application) {
         val current = raw ?: return
         // The zero is kept under the way of holding it that is on the screen (the locked one
         // while the lock is on), and taken from the steadied reading, not one raw sample.
-        val orientation = if (preferences.lockOrientation) locked ?: current.orientation else current.orientation
+        val orientation = calibrationOrientation(current)
         preferences.calibrate(zeroFor(orientation, current))
         // The readings now arrive relative to a new zero; the smoothing starts over from it.
         val zero = Reading(orientation, 0f, 0f, 0f)
@@ -170,10 +170,17 @@ class LevelViewModel(application: Application) : AndroidViewModel(application) {
         return Reading(orientation, steadied.pitch + pitch, steadied.roll + roll, steadied.balance + balance)
     }
 
-    /** Whether pressing Calibrate now would replace a zero saved for this way of holding it. */
+    /** The way of holding it a Calibrate now saves under: the locked one, or the one it is in. */
+    private fun calibrationOrientation(current: Reading): Orientation =
+        if (preferences.lockOrientation) locked ?: current.orientation else current.orientation
+
+    /**
+     * Whether pressing Calibrate now would replace a zero saved for this way of holding it,
+     * asked of the same orientation [calibrate] saves under.
+     */
     fun hasCalibrationHere(): Boolean {
-        val orientation = _state.value.reading?.orientation ?: raw?.orientation ?: return false
-        return preferences.isCalibrated(orientation)
+        val current = raw ?: return false
+        return preferences.isCalibrated(calibrationOrientation(current))
     }
 
     fun resetCalibration() {

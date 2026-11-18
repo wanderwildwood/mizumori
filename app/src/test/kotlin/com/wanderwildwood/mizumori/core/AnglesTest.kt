@@ -43,6 +43,15 @@ class FormatTest {
         assertEquals("100.0%", Angles.format(45f, Display.PERCENT))
     }
 
+    /** Stood upright the grade runs off to infinity; it is written as "more than", not a clamped number. */
+    @Test
+    fun `a grade near upright is capped, not clamped to a stray number`() {
+        assertEquals(">9999.9%", Angles.format(90f, Display.PERCENT))
+        assertEquals("<-9999.9%", Angles.format(-90f, Display.PERCENT))
+        assertEquals(">9999.9%", Angles.format(89.99f, Display.PERCENT))
+        assertEquals("5729.0%", Angles.format(89f, Display.PERCENT))
+    }
+
     /**
      * A hair below zero must not print as "-0.0°".
      *

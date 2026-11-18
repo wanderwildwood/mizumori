@@ -26,7 +26,20 @@ object Angles {
      */
     fun format(degrees: Float, display: Display): String = when (display) {
         Display.DEGREES -> "%.1f°".format(clean(degrees))
-        Display.PERCENT -> "%.1f%%".format(clean(toPercent(degrees)))
+        Display.PERCENT -> formatPercent(toPercent(degrees))
+    }
+
+    /**
+     * The steepest grade written as a number. Near upright the grade runs off towards
+     * infinity (straight up it is about 1.6e16 %), far past what the readout has room for
+     * or what [clean] can round, so beyond this it is written as "more than" this.
+     */
+    const val MAX_PERCENT = 9999.9f
+
+    private fun formatPercent(percent: Float): String = when {
+        percent > MAX_PERCENT -> ">%.1f%%".format(MAX_PERCENT)
+        percent < -MAX_PERCENT -> "<%.1f%%".format(-MAX_PERCENT)
+        else -> "%.1f%%".format(clean(percent))
     }
 
     /**

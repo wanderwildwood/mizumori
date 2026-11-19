@@ -34,6 +34,7 @@ Nothing else. No history of readings, no log, no file.
 
 If Home (`com.wanderwildwood.iori`) is installed, Level asks it whether its dark switch is
 on, so the two follow one switch. That is all it reads from Home, and it sends Home nothing.
+The app can also see which browsers the phone has, so a link in About opens in a real one. It sends them nothing.
 
 ## No analytics
 

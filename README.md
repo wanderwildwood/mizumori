@@ -98,6 +98,8 @@ For updates without doing this by hand, add this repository to
 
     https://github.com/wanderwildwood/mizumori
 
+Questions, ideas, or just saying hello: the wander the dev Discord, <https://discord.gg/UMW8yJg7dQ>
+
 ## License
 
 **GNU General Public License v3.0 or later.** See [LICENSE](LICENSE).
